@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Argus</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text">Texte</string>
+    <string name="tab_pictures">Images</string>
+    <string name="tab_settings">Paramètres</string>
+    <string name="tab_text_type_text_here">Veuillez taper votre texte ci-dessous :</string>
+    <string name="tab_pictures_select_picture">Veuillez sélectionner votre image ci-dessous :</string>
+    <string name="tab_settings_type_parameter">Veuillez saisir un paramètre :</string>
 </resources>
