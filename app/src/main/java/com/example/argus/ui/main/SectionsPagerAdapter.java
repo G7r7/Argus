@@ -36,8 +36,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         switch (position){
             case 0:
                 return new TextFormFragment();
+            case 1:
+                return new PictureFormFragment();
+            case 3:
+                return new SettingsFormFragment();
             default:
-                return PlaceholderFragment.newInstance(position + 1);
+                return new SettingsFormFragment();
         }
     }
 
