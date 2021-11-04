@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:padding="@dimen/appbar_padding">
 
     <TextView
         android:id="@+id/TextView"
@@ -22,20 +23,30 @@
         android:hint="Please type your name" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/EditText"
         android:layout_centerHorizontal="true"
-        android:text="test" />
+        android:backgroundTint="@color/red"
+        android:text="Color" />
+
+    <TextView
+        android:id="@+id/textPreview"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/button2"
+        android:padding="20dp"
+        android:background="@drawable/border"
+        />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonSend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button"
+        android:layout_below="@+id/textPreview"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/red"
-        android:text="Color" />ù
+        android:text="Envoyer" />
 
 </RelativeLayout>

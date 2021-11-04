@@ -3,16 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/fragment_main.xml" value="0.1" />
-        <entry key="..\:/Users/jean-/AndroidStudioProjects/Argus/app/src/main/res/layout/Tab1Texte.xml" value="0.1598731884057971" />
-        <entry key="..\:/Users/jean-/AndroidStudioProjects/Argus/app/src/main/res/layout/Tab2Image.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/jean-/AndroidStudioProjects/Argus/app/src/main/res/layout/Tab3Param.xml" value="0.25416666666666665" />
+        <entry key="..\:/Dvlp/Argus/app/src/main/res/drawable/border.xml" value="0.14791666666666667" />
+        <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/activity_main.xml" value="0.21388888888888888" />
+        <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/fragment_main.xml" value="0.22" />
+        <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/fragment_picture_form.xml" value="0.22" />
+        <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/fragment_settings_form.xml" value="0.22" />
+        <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/fragment_text_form.xml" value="0.22" />
         <entry key="..\:/Users/jean-/AndroidStudioProjects/Argus/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
-        <entry key="..\:/Users/jean-/AndroidStudioProjects/Argus/app/src/main/res/layout/fragment_main.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/jean-/AndroidStudioProjects/Argus/app/src/main/res/layout/fragment_picture_form.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/jean-/AndroidStudioProjects/Argus/app/src/main/res/layout/fragment_settings_form.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/jean-/AndroidStudioProjects/Argus/app/src/main/res/layout/fragment_text_form.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
