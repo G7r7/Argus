@@ -7,14 +7,17 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.argus.backend.Debug;
 import com.example.argus.databinding.FragmentPictureFormBinding;
 
 import java.io.IOException;
@@ -28,10 +31,20 @@ public class PictureFormFragment extends Fragment {
     private FragmentPictureFormBinding binding;
     int SELECT_PICTURE = 200;
     int RESULT_OK = 200;
+    String imageUri = null;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("imageUri", this.imageUri);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState != null) {
+            this.imageUri = savedInstanceState.getString("imageUri", null);
+        }
         pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
     }
 
@@ -50,6 +63,9 @@ public class PictureFormFragment extends Fragment {
                 startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
             }
         });
+        if (this.imageUri != null) {
+            this.displayAndConvertUri(Uri.parse(this.imageUri));
+        }
         View root = binding.getRoot();
         return root;
     }
@@ -60,27 +76,26 @@ public class PictureFormFragment extends Fragment {
         binding = null;
     }
 
+    public void displayAndConvertUri(Uri imageUri) {
+        try {
+            binding.imageView.setImageURI(imageUri);
+            ContentResolver contentResolver = getContext().getContentResolver();
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri);
+            int smallestDimension = bitmap.getWidth() > bitmap.getHeight() ? bitmap.getHeight() : bitmap.getWidth();
+            Bitmap squareBitmap = Bitmap.createBitmap(bitmap, 0, 0, smallestDimension, smallestDimension);
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(squareBitmap, 16, 16, false);
+            binding.imagePreview.setImageBitmap(resizedBitmap);
+        } catch (IOException E) {
+            Log.e("File", "Fichier introuvable.");
+        }
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SELECT_PICTURE) {
             Uri imageUri = data.getData();
-            if (null != imageUri) {
-                binding.imageView.setImageURI(imageUri);
-                ContentResolver contentResolver = getContext().getContentResolver();
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri);
-                    int smallestDimension = bitmap.getWidth() > bitmap.getHeight() ? bitmap.getHeight() : bitmap.getWidth();
-                    Bitmap squareBitmap = Bitmap.createBitmap(bitmap, 0, 0, smallestDimension, smallestDimension);
-                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(squareBitmap, 16, 16, false);
-                    binding.imagePreview.setImageBitmap(resizedBitmap);
-                } catch (IOException E) {
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
-                    builder1.setMessage("Fichier introuvable");
-                    builder1.setCancelable(true);
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
-                }
-            }
+            this.imageUri = imageUri.toString();
+            displayAndConvertUri(imageUri);
         }
     }
 }

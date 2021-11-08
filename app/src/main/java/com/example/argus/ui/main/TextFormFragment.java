@@ -18,6 +18,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.argus.databinding.FragmentTextFormBinding;
 
+import com.example.argus.R;
+
 import java.util.ArrayList;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
@@ -30,11 +32,20 @@ public class TextFormFragment extends Fragment {
 
     private PageViewModel pageViewModel;
     private FragmentTextFormBinding binding;
-    private int textColor;
+    private int textColor = 0;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("textColor", this.textColor);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(savedInstanceState != null) {
+            this.textColor = savedInstanceState.getInt("textColor");
+        }
         pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
     }
 
@@ -66,6 +77,9 @@ public class TextFormFragment extends Fragment {
                 openColorPicker();
             }
         });
+        if(textColor != 0) {
+            setTextAndButtonColor(textColor);
+        }
         View root = binding.getRoot();
         return root;
     }
@@ -78,6 +92,7 @@ public class TextFormFragment extends Fragment {
 
     public void openColorPicker(){
         ColorPicker colorPicker = new ColorPicker(getActivity());
+        colorPicker.setTitle(getString(R.string.tab_text_type_select_color_title));
         ArrayList<String> colors = new ArrayList<>();
         colors.add("#82B926");
         colors.add("#a276eb");
@@ -93,8 +108,7 @@ public class TextFormFragment extends Fragment {
             @Override
             public void onChooseColor(int position,int color) {
                 textColor = color;
-                binding.button2.setBackgroundColor(color);
-                binding.textPreview.setTextColor(color);
+                setTextAndButtonColor(color);
             }
 
             @Override
@@ -102,5 +116,10 @@ public class TextFormFragment extends Fragment {
 
             }
         });
+    }
+
+    public void setTextAndButtonColor(int color) {
+        binding.button2.setBackgroundColor(color);
+        binding.textPreview.setTextColor(color);
     }
 }
