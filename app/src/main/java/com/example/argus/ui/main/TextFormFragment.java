@@ -93,6 +93,7 @@ public class TextFormFragment extends Fragment {
     public void openColorPicker(){
         ColorPicker colorPicker = new ColorPicker(getActivity());
         colorPicker.setTitle(getString(R.string.tab_text_type_select_color_title));
+        /*
         ArrayList<String> colors = new ArrayList<>();
         colors.add("#82B926");
         colors.add("#a276eb");
@@ -103,6 +104,7 @@ public class TextFormFragment extends Fragment {
         colors.add("#FA9F00");
         colors.add("#FF0000");
         colorPicker.setColors(colors);
+         */
         colorPicker.show();
         colorPicker.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
             @Override
