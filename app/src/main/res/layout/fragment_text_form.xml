@@ -4,51 +4,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    android:padding="@dimen/appbar_padding">
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/appbar_padding"
-        android:text="@string/tab_text_type_text_here" />
-
-    <EditText
-        android:id="@+id/EditText"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/appbar_padding"
-        android:layout_below="@+id/TextView"
-        android:backgroundTint="@color/black"
-        android:hint="@string/tab_text_type_text_here_hint" />
+        android:layout_height="match_parent"
+        >
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/appbar_padding"
-        android:layout_below="@+id/EditText"
-        android:layout_centerHorizontal="true"
-        android:text="@string/tab_text_type_select_color_button" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/appbar_padding"
+            >
 
-    <TextView
-        android:id="@+id/textPreview"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="@dimen/appbar_padding"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/button2"
-        android:padding="@dimen/appbar_padding"
-        android:background="@drawable/border"
-        />
+            <TextView
+                android:id="@+id/TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/appbar_padding"
+                android:text="@string/tab_text_type_text_here" />
 
-    <Button
-        android:id="@+id/buttonSend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textPreview"
-        android:layout_centerHorizontal="true"
-        android:text="@string/send" />
+            <EditText
+                android:id="@+id/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/appbar_padding"
+                android:layout_below="@+id/TextView"
+                android:backgroundTint="@color/black"
+                android:hint="@string/tab_text_type_text_here_hint" />
 
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/appbar_padding"
+                android:layout_below="@+id/EditText"
+                android:layout_centerHorizontal="true"
+                android:text="@string/tab_text_type_select_color_button" />
+
+            <TextView
+                android:id="@+id/textPreview"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="@dimen/appbar_padding"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/button2"
+                android:padding="@dimen/appbar_padding"
+                android:background="@drawable/border"
+                />
+
+            <Button
+                android:id="@+id/buttonSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textPreview"
+                android:layout_centerHorizontal="true"
+                android:text="@string/send" />
+
+
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
