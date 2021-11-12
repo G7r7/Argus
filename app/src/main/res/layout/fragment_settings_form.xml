@@ -26,29 +26,11 @@
                 android:layout_marginBottom="@dimen/appbar_padding"
                 android:text="@string/tab_settings_type_parameter" />
 
-            <Switch
-                android:id="@+id/switch1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView"
-                android:layout_marginBottom="@dimen/appbar_padding"
-                android:text="Switch"
-                />
-
-            <Switch
-                android:id="@+id/switch2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Switch"
-                android:layout_below="@id/switch1"
-                android:layout_marginBottom="@dimen/appbar_padding"
-                />
-
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/switch2"
+                android:layout_below="@id/textView"
                 android:layout_marginBottom="@dimen/appbar_padding"
                 android:text="@string/tab_settings_type_px_width" />
 
@@ -94,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/buttonUpdate"
                 android:visibility="gone"
+                android:textAlignment="center"
                 android:background="@color/red"
                 android:textColor="@color/white"
                 android:padding="@dimen/appbar_padding"

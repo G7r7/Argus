@@ -60,7 +60,7 @@ public class SettingsFormFragment extends Fragment {
                 try {
                     if(binding.editTextNumber.getText().toString().isEmpty()
                             || binding.editTextNumber2.getText().toString().isEmpty()) {
-                       throw new Exception("Champ(s) vide(s) interdit(s) !");
+                       throw new Exception(getString(R.string.tab_settings_no_empty_error));
                     }
                     binding.textViewError.setVisibility(View.GONE);
                     int widthPx = Integer.parseInt(binding.editTextNumber.getText().toString());

@@ -1,5 +1,7 @@
 package com.example.argus.backend;
 
+import com.example.argus.R;
+
 public class Settings {
 
     private int widthPx = 16;
@@ -18,6 +20,6 @@ public class Settings {
             this.heightPx = heightPx;
         }
         else
-            throw new Exception("Width and Height must be > 0");
+            throw new Exception("La hauteur et la largeur doivent être supérieures à zéro");
     }
 }

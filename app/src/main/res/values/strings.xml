@@ -16,4 +16,6 @@
     <string name="tab_settings_type_px_height">Nombre de pixels verticaux</string>
     <string name="tab_settings_update">Appliquer</string>
     <string name="tab_settings_success">Paramètres mis à jour avec succès</string>
+    <string name="tab_settings_no_empty_error">Champ(s) vide(s) interdit(s) !</string>
+    <string name="settings_height_width_positive_only_error">La hauteur et la largeur doivent être supérieures à zéro</string>
 </resources>
