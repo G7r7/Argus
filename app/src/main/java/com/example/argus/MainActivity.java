@@ -2,6 +2,7 @@ package com.example.argus;
 
 import android.os.Bundle;
 
+import com.example.argus.backend.Settings;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.viewpager.widget.ViewPager;
@@ -17,6 +18,7 @@ import com.example.argus.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    public Settings settings = new Settings();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

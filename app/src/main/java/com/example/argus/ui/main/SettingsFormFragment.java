@@ -1,20 +1,29 @@
 package com.example.argus.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.argus.MainActivity;
+import com.example.argus.R;
 import com.example.argus.databinding.FragmentSettingsFormBinding;
-import com.example.argus.databinding.FragmentTextFormBinding;
 
 
 /**
- * A Text form fragment for sending text to display
+ * A Settings form fragment to change settings
  */
 public class SettingsFormFragment extends Fragment {
 
@@ -33,6 +42,33 @@ public class SettingsFormFragment extends Fragment {
             Bundle savedInstanceState) {
 
         binding = FragmentSettingsFormBinding.inflate(inflater, container, false);
+        binding.buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if(binding.editTextNumber.getText().toString().isEmpty()
+                            || binding.editTextNumber2.getText().toString().isEmpty()) {
+                       throw new Exception("Champ(s) vide(s) interdit(s) !");
+                    }
+                    binding.textViewError.setVisibility(View.GONE);
+                    int widthPx = Integer.parseInt(binding.editTextNumber.getText().toString());
+                    int heightPx = Integer.parseInt(binding.editTextNumber2.getText().toString());
+                    MainActivity myActivity = (MainActivity) getActivity();
+                    myActivity.settings.setWidthAndHeightPx(widthPx, heightPx);
+                    binding.textViewSuccess.setVisibility(View.VISIBLE);
+                    AlphaAnimation fadeOut = new AlphaAnimation(1.0f , 0.0f );
+                    binding.textViewSuccess.startAnimation(fadeOut);
+                    fadeOut.setDuration(1000);
+                    fadeOut.setFillAfter(true);
+                    fadeOut.setStartOffset(2000);
+                } catch (Exception e) {
+                    Log.w("APPLY", "exception: " + e.getMessage() );
+                    binding.textViewSuccess.setVisibility(View.GONE);
+                    binding.textViewError.setText(e.getMessage());
+                    binding.textViewError.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         View root = binding.getRoot();
         return root;
     }

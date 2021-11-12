@@ -12,4 +12,8 @@
     <string name="tab_pictures_select_picture">Veuillez sélectionner votre image ci-dessous :</string>
     <string name="tab_pictures_select_picture_button">Choisir une image</string>
     <string name="tab_settings_type_parameter">Veuillez saisir un paramètre :</string>
+    <string name="tab_settings_type_px_width">Nombre de pixels horizontaux</string>
+    <string name="tab_settings_type_px_height">Nombre de pixels verticaux</string>
+    <string name="tab_settings_update">Appliquer</string>
+    <string name="tab_settings_success">Paramètres mis à jour avec succès</string>
 </resources>
