@@ -1,5 +1,6 @@
 package com.example.argus.ui.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +30,15 @@ public class SettingsFormFragment extends Fragment {
 
     private PageViewModel pageViewModel;
     private FragmentSettingsFormBinding binding;
+    private int settingsWidthPx = 0;
+    private int settingsHeightPx = 0;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.settingsWidthPx = ((MainActivity) getActivity()).settings.getWidthPx();
+        this.settingsHeightPx = ((MainActivity) getActivity()).settings.getHeightPx();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,8 @@ public class SettingsFormFragment extends Fragment {
             Bundle savedInstanceState) {
 
         binding = FragmentSettingsFormBinding.inflate(inflater, container, false);
+        binding.editTextNumber.setText(String.valueOf(this.settingsWidthPx));
+        binding.editTextNumber2.setText(String.valueOf(this.settingsHeightPx));
         binding.buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

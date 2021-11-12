@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.argus.MainActivity;
 import com.example.argus.backend.Debug;
 import com.example.argus.databinding.FragmentPictureFormBinding;
 
@@ -83,7 +84,10 @@ public class PictureFormFragment extends Fragment {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri);
             int smallestDimension = bitmap.getWidth() > bitmap.getHeight() ? bitmap.getHeight() : bitmap.getWidth();
             Bitmap squareBitmap = Bitmap.createBitmap(bitmap, 0, 0, smallestDimension, smallestDimension);
-            Bitmap resizedBitmap = Bitmap.createScaledBitmap(squareBitmap, 16, 16, false);
+
+            int widthPx = ((MainActivity) getActivity()).settings.getWidthPx();
+            int heightPx = ((MainActivity) getActivity()).settings.getHeightPx();
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(squareBitmap, widthPx, heightPx, false);
             binding.imagePreview.setImageBitmap(resizedBitmap);
         } catch (IOException E) {
             Log.e("File", "Fichier introuvable.");
