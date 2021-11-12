@@ -6,7 +6,8 @@
     <string name="tab_settings">Paramètres</string>
     <string name="tab_text_type_text_here">Veuillez taper votre texte ci-dessous :</string>
     <string name="tab_text_type_text_here_hint">Tapez votre texte ici</string>
-    <string name="tab_text_type_select_color_button">Choisir une couleur</string>
+    <string name="tab_text_type_select_text_color">Couleur texte</string>
+    <string name="tab_text_type_select_background_color">Couleur fond</string>
     <string name="tab_text_type_select_color_title">Choisissez une couleur</string>
     <string name="colorpicker_dialog_cancel">Annuler</string>
     <string name="tab_pictures_select_picture">Veuillez sélectionner votre image ci-dessous :</string>

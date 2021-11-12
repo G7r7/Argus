@@ -34,25 +34,41 @@
                 android:backgroundTint="@color/black"
                 android:hint="@string/tab_text_type_text_here_hint" />
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/EditText"
+                android:id="@+id/buttons_layout"
+                android:gravity="center"
                 android:layout_marginBottom="@dimen/appbar_padding"
-                android:layout_below="@+id/EditText"
-                android:layout_centerHorizontal="true"
-                android:text="@string/tab_text_type_select_color_button" />
+                >
 
-            <TextView
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_text_type_select_text_color"
+                    android:layout_marginRight="@dimen/appbar_padding"
+                    />
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_text_type_select_background_color"
+                    android:layout_toRightOf="@id/button2"
+                    />
+            </RelativeLayout>
+
+            <ImageView
                 android:id="@+id/textPreview"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginBottom="@dimen/appbar_padding"
+                android:layout_below="@id/buttons_layout"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/button2"
-                android:padding="@dimen/appbar_padding"
+                android:layout_marginBottom="@dimen/appbar_padding"
                 android:background="@drawable/border"
-                />
+                android:padding="@dimen/appbar_padding" />
 
             <Button
                 android:id="@+id/buttonSend"
