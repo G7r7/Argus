@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.argus.MainActivity;
 import com.example.argus.databinding.FragmentTextFormBinding;
 
 import com.example.argus.R;
@@ -147,19 +148,22 @@ public class TextFormFragment extends Fragment {
     }
 
     private Bitmap generateTextBitmap() {
-        Bitmap bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
+        int widthPx = ((MainActivity) getActivity()).settings.getWidthPx();
+        int heightPx = ((MainActivity) getActivity()).settings.getHeightPx();
+        Bitmap bitmap = Bitmap.createBitmap(widthPx, heightPx, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
 
         // BG
         Paint paintBg = new Paint();
         paintBg.setColor(this.backgroundColor);
-        canvas.drawRect(0, 0, 200, 200, paintBg);
+        canvas.drawRect(0, 0, widthPx, heightPx, paintBg);
 
         String string = text;
-        float scale = getResources().getDisplayMetrics().density;
+        float scale = ((MainActivity) getActivity()).settings.getTextScale();
+        int fontSize = ((MainActivity) getActivity()).settings.getTextFontSize();
         Paint paintText = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintText.setColor(this.textColor);
-        paintText.setTextSize((int) (14 * scale));
+        paintText.setTextSize((int) (fontSize * scale));
         paintText.setShadowLayer(1f, 0f, 1f, Color.WHITE);
 
         // draw text in the center

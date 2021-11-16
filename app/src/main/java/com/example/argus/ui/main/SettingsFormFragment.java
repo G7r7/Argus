@@ -22,6 +22,8 @@ import com.example.argus.MainActivity;
 import com.example.argus.R;
 import com.example.argus.databinding.FragmentSettingsFormBinding;
 
+import java.util.HashMap;
+
 
 /**
  * A Settings form fragment to change settings
@@ -32,12 +34,14 @@ public class SettingsFormFragment extends Fragment {
     private FragmentSettingsFormBinding binding;
     private int settingsWidthPx = 0;
     private int settingsHeightPx = 0;
+    private float settingsTextScale = 0;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.settingsWidthPx = ((MainActivity) getActivity()).settings.getWidthPx();
         this.settingsHeightPx = ((MainActivity) getActivity()).settings.getHeightPx();
+        this.settingsTextScale = ((MainActivity) getActivity()).settings.getTextScale();
     }
 
     @Override
@@ -54,6 +58,7 @@ public class SettingsFormFragment extends Fragment {
         binding = FragmentSettingsFormBinding.inflate(inflater, container, false);
         binding.editTextNumber.setText(String.valueOf(this.settingsWidthPx));
         binding.editTextNumber2.setText(String.valueOf(this.settingsHeightPx));
+        binding.editTextScale.setText(String.valueOf(this.settingsTextScale));
         binding.buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,8 +70,13 @@ public class SettingsFormFragment extends Fragment {
                     binding.textViewError.setVisibility(View.GONE);
                     int widthPx = Integer.parseInt(binding.editTextNumber.getText().toString());
                     int heightPx = Integer.parseInt(binding.editTextNumber2.getText().toString());
+                    float textScale = Float.parseFloat(binding.editTextScale.getText().toString());
                     MainActivity myActivity = (MainActivity) getActivity();
-                    myActivity.settings.setWidthAndHeightPx(widthPx, heightPx);
+                    HashMap<String, Object> settings = myActivity.settings.getSettings();
+                    settings.put("widthPx", widthPx);
+                    settings.put("heightPx", heightPx);
+                    settings.put("textScale", textScale);
+                    myActivity.settings.updateSettings(settings);
                     binding.textViewSuccess.setVisibility(View.VISIBLE);
                     AlphaAnimation fadeOut = new AlphaAnimation(1.0f , 0.0f );
                     binding.textViewSuccess.startAnimation(fadeOut);

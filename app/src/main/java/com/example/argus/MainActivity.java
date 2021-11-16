@@ -13,6 +13,7 @@ import android.util.Log;
 import com.example.argus.ui.main.SectionsPagerAdapter;
 import com.example.argus.databinding.ActivityMainBinding;
 
+import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +24,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            HashMap<String, Object> settings = this.settings.getSettings();
+            settings.put("textScale", getResources().getDisplayMetrics().density);
+            this.settings.updateSettings(settings);
+        } catch (Exception e) {
+            Log.e("ERR", "Can't set text Scale");
+        }
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

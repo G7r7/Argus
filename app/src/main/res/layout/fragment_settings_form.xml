@@ -61,11 +61,28 @@
                 android:layout_marginBottom="@dimen/appbar_padding"
                 android:inputType="number" />
 
+            <TextView
+                android:id="@+id/textViewScale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editTextNumber2"
+                android:layout_marginBottom="@dimen/appbar_padding"
+                android:text="@string/tab_settings_type_text_scale" />
+
+            <EditText
+                android:id="@+id/editTextScale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewScale"
+                android:ems="10"
+                android:layout_marginBottom="@dimen/appbar_padding"
+                android:inputType="numberDecimal" />
+
             <Button
                 android:id="@+id/buttonUpdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/editTextNumber2"
+                android:layout_below="@id/editTextScale"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/appbar_padding"
                 android:text="@string/tab_settings_update" />
