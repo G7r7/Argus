@@ -116,6 +116,21 @@ public class TextFormFragment extends Fragment {
                 }
             }
         });
+        binding.buttonMinus.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(fontSizePx > 1)
+                    fontSizePx--;
+                binding.editTextFontSize.setText(String.valueOf(fontSizePx));
+                refreshTextBitmapPreview();
+            }
+        });
+        binding.buttonPlus.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                fontSizePx++;
+                binding.editTextFontSize.setText(String.valueOf(fontSizePx));
+                refreshTextBitmapPreview();
+            }
+        });
         if(textColor != 0) {
             binding.button2.setBackgroundColor(textColor);
         }

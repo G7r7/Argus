@@ -68,20 +68,46 @@
                 android:layout_marginBottom="@dimen/appbar_padding"
                 android:text="@string/tab_text_type_text_font_size" />
 
-            <EditText
-                android:id="@+id/editTextFontSize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_below="@id/textViewFontSize"
-                android:ems="10"
+                android:id="@+id/fontSize_buttons_layout"
+                android:gravity="center"
                 android:layout_marginBottom="@dimen/appbar_padding"
-                android:inputType="numberDecimal" />
+                >
+
+                <EditText
+                    android:id="@+id/editTextFontSize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="5"
+                    android:layout_marginRight="@dimen/appbar_padding"
+                    android:inputType="numberDecimal" />
+
+                <Button
+                    android:id="@+id/button_minus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/editTextFontSize"
+                    android:text="@string/tab_text_type_text_font_size_minus"
+                    android:layout_marginRight="@dimen/appbar_padding"
+                    />
+
+                <Button
+                    android:id="@+id/button_plus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_text_type_text_font_size_plus"
+                    android:layout_toRightOf="@id/button_minus"
+                    />
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/textPreview"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_below="@id/editTextFontSize"
+                android:layout_below="@id/fontSize_buttons_layout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/appbar_padding"
                 android:background="@drawable/border"
