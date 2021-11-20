@@ -40,6 +40,7 @@ public class TextFormFragment extends Fragment {
     private FragmentTextFormBinding binding;
     private int textColor = 0;
     private int backgroundColor = 0;
+    private float fontSizePx = 12;
     private String text = "";
 
     @Override
@@ -47,6 +48,7 @@ public class TextFormFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putInt("textColor", this.textColor);
         outState.putInt("backgroundColor", this.backgroundColor);
+        outState.putFloat("fontSizePx", this.fontSizePx);
     }
 
     @Override
@@ -55,6 +57,7 @@ public class TextFormFragment extends Fragment {
         if(savedInstanceState != null) {
             this.textColor = savedInstanceState.getInt("textColor");
             this.backgroundColor = savedInstanceState.getInt("backgroundColor");
+            this.fontSizePx = savedInstanceState.getFloat("fontSizePx");
         }
         pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
     }
@@ -94,11 +97,33 @@ public class TextFormFragment extends Fragment {
                 openBackgroundColorPicker();
             }
         });
+        binding.editTextFontSize.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if(s.length() != 0) {
+                    fontSizePx = Float.parseFloat(s.toString());
+                    refreshTextBitmapPreview();
+                }
+            }
+        });
         if(textColor != 0) {
             binding.button2.setBackgroundColor(textColor);
         }
         if(backgroundColor != 0) {
             binding.button3.setBackgroundColor(backgroundColor);
+        }
+        if(fontSizePx != 0) {
+            binding.editTextFontSize.setText(String.valueOf(fontSizePx));
         }
         View root = binding.getRoot();
         return root;
@@ -160,11 +185,9 @@ public class TextFormFragment extends Fragment {
 
         String string = text;
         float scale = ((MainActivity) getActivity()).settings.getTextScale();
-        int fontSize = ((MainActivity) getActivity()).settings.getTextFontSize();
         Paint paintText = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintText.setColor(this.textColor);
-        paintText.setTextSize((int) (fontSize * scale));
-        paintText.setShadowLayer(1f, 0f, 1f, Color.WHITE);
+        paintText.setTextSize((int) (fontSizePx * scale));
 
         // draw text in the center
         Rect bounds = new Rect();
