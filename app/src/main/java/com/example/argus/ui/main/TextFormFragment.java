@@ -184,10 +184,10 @@ public class TextFormFragment extends Fragment {
         canvas.drawRect(0, 0, widthPx, heightPx, paintBg);
 
         String string = text;
-        float scale = ((MainActivity) getActivity()).settings.getTextScale();
         Paint paintText = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintText.setColor(this.textColor);
-        paintText.setTextSize((int) (fontSizePx * scale));
+        paintText.setTextSize(this.fontSizePx);
+
 
         // draw text in the center
         Rect bounds = new Rect();

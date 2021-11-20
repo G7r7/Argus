@@ -16,7 +16,6 @@
     <string name="tab_settings_type_parameter">Veuillez saisir un paramètre :</string>
     <string name="tab_settings_type_px_width">Nombre de pixels horizontaux</string>
     <string name="tab_settings_type_px_height">Nombre de pixels verticaux</string>
-    <string name="tab_settings_type_text_scale">Echelle du texte</string>
     <string name="tab_settings_update">Appliquer</string>
     <string name="tab_settings_success">Paramètres mis à jour avec succès</string>
     <string name="tab_settings_no_empty_error">Champ(s) vide(s) interdit(s) !</string>

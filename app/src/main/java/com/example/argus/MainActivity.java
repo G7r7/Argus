@@ -25,15 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
-            HashMap<String, Object> settings = this.settings.getSettings();
-            settings.put("textScale", getResources().getDisplayMetrics().density);
-            this.settings.updateSettings(settings);
-        } catch (Exception e) {
-            Log.e("ERR", "Can't set text Scale");
-        }
-
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+       binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
