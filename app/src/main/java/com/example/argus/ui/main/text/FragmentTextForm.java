@@ -1,4 +1,4 @@
-package com.example.argus.ui.main;
+package com.example.argus.ui.main.text;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -25,6 +25,7 @@ import com.example.argus.MainActivity;
 import com.example.argus.databinding.FragmentTextFormBinding;
 
 import com.example.argus.R;
+import com.example.argus.ui.main.PageViewModel;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ import petrov.kristiyan.colorpicker.ColorPicker;
 /**
  * A Text form fragment for sending text to display
  */
-public class TextFormFragment extends Fragment {
+public class FragmentTextForm extends Fragment {
 
     private PageViewModel pageViewModel;
     private FragmentTextFormBinding binding;

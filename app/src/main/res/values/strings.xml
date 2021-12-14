@@ -22,4 +22,17 @@
     <string name="tab_settings_success">Paramètres mis à jour avec succès</string>
     <string name="tab_settings_no_empty_error">Champ(s) vide(s) interdit(s) !</string>
     <string name="settings_height_width_positive_only_error">La hauteur et la largeur doivent être supérieures à zéro</string>
+    <string name="bluetooth_not_supported">Accès au bluetooth nécessaire</string>
+    <string name="ble_not_supported">Accès au bluetooth nécessaire</string>
+    <string name="location_not_supported">Accès à la localisation néscéssaire</string>
+    <string name="get_bonded_devices">Afficher les périphérique précédemment appairés</string>
+    <string name="search_bluetooth_devices">Rechercher des périphériques</string>
+    <string name="discovery_success">Découverte lancée</string>
+    <string name="discovery_failed">Découverte échouée</string>
+    <string name="device_detected">Périphérique détecté</string>
+    <string name="select_bluetooth_mode">Mode bluetooth (Client/Server)</string>
+    <string name="start_server">Démarrer serveur</string>
+    <string name="stop_server">Arrêter serveur</string>
+    <string name="connect_to_server">Se connecter au serveur</string>
+    <string name="disconnect_from_server">Se déconnecter</string>
 </resources>

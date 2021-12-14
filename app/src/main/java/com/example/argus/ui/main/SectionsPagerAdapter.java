@@ -9,6 +9,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.argus.R;
+import com.example.argus.ui.main.picture.FragmentPictureForm;
+import com.example.argus.ui.main.settings.FragmentSettingsForm;
+import com.example.argus.ui.main.text.FragmentTextForm;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -35,13 +38,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
         switch (position){
             case 0:
-                return new TextFormFragment();
+                return new FragmentTextForm();
             case 1:
-                return new PictureFormFragment();
+                return new FragmentPictureForm();
             case 3:
-                return new SettingsFormFragment();
+                return new FragmentSettingsForm();
             default:
-                return new SettingsFormFragment();
+                return new FragmentSettingsForm();
         }
     }
 

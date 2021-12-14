@@ -95,6 +95,19 @@
                 android:layout_centerHorizontal="true"
                 android:text="@string/tab_settings_success" />
 
+            <Switch
+                android:layout_below="@id/textViewSuccess"
+                android:id="@+id/bluetooth_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/select_bluetooth_mode"
+                />
+            <FrameLayout
+                android:id="@+id/frame_layout"
+                android:layout_below="@id/bluetooth_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
         </RelativeLayout>
     </ScrollView>
 

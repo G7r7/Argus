@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.server.FragmentServer">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/start_server" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/button"
+        android:text="@string/stop_server" />
+
+    <ScrollView
+        android:layout_marginTop="@dimen/fab_margin"
+        android:layout_below="@id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        >
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="400dp"
+            android:background="@color/black"
+            android:textColor="@color/teal_700"
+            />
+    </ScrollView>
+</RelativeLayout>

@@ -1,6 +1,5 @@
-package com.example.argus.ui.main;
+package com.example.argus.ui.main.picture;
 
-import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,13 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.argus.MainActivity;
-import com.example.argus.backend.Debug;
 import com.example.argus.databinding.FragmentPictureFormBinding;
+import com.example.argus.ui.main.PageViewModel;
 
 import java.io.IOException;
 
@@ -27,7 +25,7 @@ import java.io.IOException;
 /**
  * A Picture form fragment for sending text to display
  */
-public class PictureFormFragment extends Fragment {
+public class FragmentPictureForm extends Fragment {
     private PageViewModel pageViewModel;
     private FragmentPictureFormBinding binding;
     int SELECT_PICTURE = 200;
