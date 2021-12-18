@@ -1,4 +1,4 @@
-package com.example.argus.ui.main.settings.common;
+package com.example.argus.ui.main.settings.bluetooth.common;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;

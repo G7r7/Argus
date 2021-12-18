@@ -1,18 +1,14 @@
 package com.example.argus.backend.common;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.argus.R;
-import com.example.argus.ui.main.settings.client.DiscoveredDevicesList;
-
-import java.util.ArrayList;
+import com.example.argus.ui.main.settings.bluetooth.client.DiscoveredDevicesList;
 
 public class BluetoothDeviceFoundReceiver extends BroadcastReceiver {
     private Context context;

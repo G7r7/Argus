@@ -1,4 +1,4 @@
-package com.example.argus.ui.main.settings.client;
+package com.example.argus.ui.main.settings.bluetooth.client;
 
 import androidx.lifecycle.ViewModel;
 

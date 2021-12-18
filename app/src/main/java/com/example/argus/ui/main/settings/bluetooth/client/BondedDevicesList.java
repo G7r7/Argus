@@ -1,11 +1,11 @@
-package com.example.argus.ui.main.settings.client;
+package com.example.argus.ui.main.settings.bluetooth.client;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.widget.ListView;
 
-import com.example.argus.ui.main.settings.common.BluetoothDeviceListAdapter;
+import com.example.argus.ui.main.settings.bluetooth.common.BluetoothDeviceListAdapter;
 
 import java.util.ArrayList;
 

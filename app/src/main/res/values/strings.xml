@@ -4,6 +4,7 @@
     <string name="tab_text">Texte</string>
     <string name="tab_pictures">Images</string>
     <string name="tab_settings">Paramètres</string>
+    <string name="tab_settings_change_resolution">Changer de résolution</string>
     <string name="tab_text_type_text_here">Veuillez taper votre texte ci-dessous :</string>
     <string name="tab_text_type_text_here_hint">Tapez votre texte ici</string>
     <string name="tab_text_type_select_text_color">Couleur texte</string>

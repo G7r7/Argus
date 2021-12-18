@@ -1,4 +1,4 @@
-package com.example.argus.ui.main.settings.client;
+package com.example.argus.ui.main.settings.bluetooth.client;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -21,7 +21,7 @@ import android.widget.AdapterView;
 import com.example.argus.backend.client.BluetoothClientThread;
 import com.example.argus.backend.common.BluetoothStateChangeReceiver;
 import com.example.argus.databinding.FragmentClientBinding;
-import com.example.argus.ui.main.settings.common.BluetoothDeviceListAdapter;
+import com.example.argus.ui.main.settings.bluetooth.common.BluetoothDeviceListAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.nio.charset.StandardCharsets;
