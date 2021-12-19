@@ -19,44 +19,56 @@
             <RelativeLayout
                 android:id="@+id/resolution_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginBottom="@dimen/appbar_padding"
                 >
                 <TextView
                     android:id="@+id/resolution_preview"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:background="@color/cardview_shadow_start_color"
                     android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:paddingHorizontal="@dimen/appbar_padding"
+                    android:layout_marginRight="@dimen/appbar_padding"
                     />
                 <Button
                     android:id="@+id/open_resolution_modal"
                     android:layout_toRightOf="@id/resolution_preview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tab_settings_change_resolution" />
-
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tab_settings_change_resolution"
+                    android:layout_centerVertical="true"
+                    />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/connexion_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_below="@id/resolution_container"
+                android:layout_height="50dp"
                 android:layout_marginBottom="@dimen/appbar_padding"
                 >
                 <TextView
                     android:id="@+id/connexion_preview"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:background="@color/cardview_shadow_start_color"
                     android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:paddingHorizontal="@dimen/appbar_padding"
+                    android:layout_marginRight="@dimen/appbar_padding"
                     />
                 <Button
                     android:id="@+id/open_connexion_modal"
                     android:layout_toRightOf="@id/connexion_preview"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/tab_settings_set_connexion" />
-
+                    android:layout_centerVertical="true"
+                    android:text="@string/tab_settings_set_connexion"
+                    />
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.argus.MainActivity;
@@ -94,6 +95,12 @@ public class ResolutionDialogFragment extends DialogFragment {
                 }
             });
         }
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        ((DialogInterface.OnDismissListener) getParentFragment()).onDismiss(dialog);
     }
 }
 

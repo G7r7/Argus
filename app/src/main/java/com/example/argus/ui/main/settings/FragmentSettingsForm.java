@@ -1,6 +1,7 @@
 package com.example.argus.ui.main.settings;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,20 +21,16 @@ import com.example.argus.ui.main.settings.resolution.ResolutionDialogFragment;
 /**
  * A Settings form fragment to change settings
  */
-public class FragmentSettingsForm extends Fragment {
+public class FragmentSettingsForm extends Fragment implements DialogInterface.OnDismissListener{
 
     private PageViewModel pageViewModel;
     private FragmentSettingsFormBinding binding;
     private ResolutionDialogFragment resolutionModal;
     private BluetoothConnexionDialogFragment connexionModal;
-    private int settingsWidthPx = 0;
-    private int settingsHeightPx = 0;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        this.settingsWidthPx = ((MainActivity) getActivity()).settings.getWidthPx();
-        this.settingsHeightPx = ((MainActivity) getActivity()).settings.getHeightPx();
     }
 
     @Override
@@ -50,6 +47,10 @@ public class FragmentSettingsForm extends Fragment {
             Bundle savedInstanceState) {
 
         binding = FragmentSettingsFormBinding.inflate(inflater, container, false);
+        int settingsWidthPx = ((MainActivity) getActivity()).settings.getWidthPx();
+        int settingsHeightPx = ((MainActivity) getActivity()).settings.getHeightPx();
+        String resolutionPreview = String.valueOf(settingsWidthPx) + " * " + String.valueOf(settingsHeightPx);
+        binding.resolutionPreview.setText(resolutionPreview);
         binding.openResolutionModal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +65,14 @@ public class FragmentSettingsForm extends Fragment {
         });
         View root = binding.getRoot();
         return root;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        int settingsWidthPx = ((MainActivity) getActivity()).settings.getWidthPx();
+        int settingsHeightPx = ((MainActivity) getActivity()).settings.getHeightPx();
+        String resolutionPreview = String.valueOf(settingsWidthPx) + " * " + String.valueOf(settingsHeightPx);
+        binding.resolutionPreview.setText(resolutionPreview);
     }
 
     @Override
