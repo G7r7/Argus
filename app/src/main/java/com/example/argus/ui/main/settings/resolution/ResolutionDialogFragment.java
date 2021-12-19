@@ -19,12 +19,12 @@ import com.example.argus.R;
 
 import java.util.HashMap;
 
-public class SetResolutionDialogFragment extends DialogFragment {
+public class ResolutionDialogFragment extends DialogFragment {
 
     private MainActivity mainActivity;
     private View view;
 
-    public SetResolutionDialogFragment(MainActivity mainActivity) {
+    public ResolutionDialogFragment(MainActivity mainActivity) {
         super();
         this.mainActivity = mainActivity;
     }

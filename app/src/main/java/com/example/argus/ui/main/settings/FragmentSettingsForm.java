@@ -1,30 +1,20 @@
 package com.example.argus.ui.main.settings;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.argus.MainActivity;
-import com.example.argus.R;
 import com.example.argus.databinding.FragmentSettingsFormBinding;
 import com.example.argus.ui.main.PageViewModel;
-import com.example.argus.ui.main.settings.bluetooth.client.FragmentClient;
-import com.example.argus.ui.main.settings.bluetooth.server.FragmentServer;
-import com.example.argus.ui.main.settings.resolution.SetResolutionDialogFragment;
-
-import java.util.HashMap;
+import com.example.argus.ui.main.settings.bluetooth.BluetoothConnexionDialogFragment;
+import com.example.argus.ui.main.settings.resolution.ResolutionDialogFragment;
 
 
 /**
@@ -34,7 +24,8 @@ public class FragmentSettingsForm extends Fragment {
 
     private PageViewModel pageViewModel;
     private FragmentSettingsFormBinding binding;
-    private SetResolutionDialogFragment resolutionModal;
+    private ResolutionDialogFragment resolutionModal;
+    private BluetoothConnexionDialogFragment connexionModal;
     private int settingsWidthPx = 0;
     private int settingsHeightPx = 0;
 
@@ -49,7 +40,8 @@ public class FragmentSettingsForm extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
-        resolutionModal = new SetResolutionDialogFragment((MainActivity) getActivity());
+        resolutionModal = new ResolutionDialogFragment((MainActivity) getActivity());
+        connexionModal = new BluetoothConnexionDialogFragment((MainActivity) getActivity());
     }
 
     @Override
@@ -58,40 +50,20 @@ public class FragmentSettingsForm extends Fragment {
             Bundle savedInstanceState) {
 
         binding = FragmentSettingsFormBinding.inflate(inflater, container, false);
-        binding.resolutionModal.setOnClickListener(new View.OnClickListener() {
+        binding.openResolutionModal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 resolutionModal.show(getChildFragmentManager(), "Résolution");
             }
         });
-        displayFragment("client");
-        binding.bluetoothSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        binding.openConnexionModal.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b == false)
-                    displayFragment("client");
-                else if (b == true)
-                    displayFragment("server");
+            public void onClick(View view) {
+                connexionModal.show(getChildFragmentManager(), "Connexion");
             }
         });
         View root = binding.getRoot();
         return root;
-    }
-
-    public void displayFragment(String type) {
-        for (Fragment fragment : getChildFragmentManager().getFragments()) {
-            getChildFragmentManager().beginTransaction().remove(fragment).commit();
-        }
-        Fragment newFragment = null;
-        FragmentManager fragmentManager = getChildFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (type == "client") {
-            newFragment = FragmentClient.newInstance();
-        } else if (type == "server") {
-            newFragment = FragmentServer.newInstance();
-        }
-        if (newFragment != null)
-            fragmentTransaction.add(binding.frameLayout.getId(), newFragment).addToBackStack(null).commit();
     }
 
     @Override

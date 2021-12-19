@@ -11,35 +11,53 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/appbar_padding"
-            >
-            <Button
-                android:id="@+id/resolutionModal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/appbar_padding"
-                android:text="@string/tab_settings_change_resolution" />
+            android:padding="@dimen/appbar_padding">
 
-            <Switch
-                android:layout_below="@id/resolutionModal"
-                android:id="@+id/bluetooth_switch"
+            <RelativeLayout
+                android:id="@+id/resolution_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/select_bluetooth_mode"
-                />
-            <FrameLayout
-                android:id="@+id/frame_layout"
-                android:layout_below="@id/bluetooth_switch"
+                android:layout_marginBottom="@dimen/appbar_padding"
+                >
+                <TextView
+                    android:id="@+id/resolution_preview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    />
+                <Button
+                    android:id="@+id/open_resolution_modal"
+                    android:layout_toRightOf="@id/resolution_preview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_settings_change_resolution" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/connexion_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                android:layout_below="@id/resolution_container"
+                android:layout_marginBottom="@dimen/appbar_padding"
+                >
+                <TextView
+                    android:id="@+id/connexion_preview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    />
+                <Button
+                    android:id="@+id/open_connexion_modal"
+                    android:layout_toRightOf="@id/connexion_preview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_settings_set_connexion" />
+
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
-
 </RelativeLayout>
