@@ -13,11 +13,14 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Magnifier;
 
+import com.example.argus.MainActivity;
 import com.example.argus.backend.client.BluetoothClientThread;
 import com.example.argus.backend.common.BluetoothStateChangeReceiver;
 import com.example.argus.databinding.FragmentClientBinding;
@@ -26,6 +29,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class FragmentClient extends Fragment {
@@ -52,7 +57,6 @@ public class FragmentClient extends Fragment {
             String text = new String((byte[])msg.obj, StandardCharsets.UTF_8);
             Snackbar.make(getView(), text, Snackbar.LENGTH_LONG).show();
             // Si on reçoit quelque chose on active le bouton
-            binding.send.setEnabled(true);
         }
     };
 
@@ -68,21 +72,6 @@ public class FragmentClient extends Fragment {
         binding = FragmentClientBinding.inflate(inflater);
         // Logic
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        // connexion
-        binding.connectToServer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                connectToServer();
-            }
-        });
-        binding.disconnectFromServer.setEnabled(false);
-        binding.disconnectFromServer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                disconnectFromServer();
-                binding.send.setEnabled(false);
-            }
-        });
         // Callback de changement d'état du bluetooth
         bluetoothStateChangeReceiver = new BluetoothStateChangeReceiver(getContext());
         // Lists
@@ -135,37 +124,45 @@ public class FragmentClient extends Fragment {
             }
         });
         // Callback send button
-        binding.send.setEnabled(false);
-        binding.send.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                byte[] data = String.valueOf(binding.text.getText()).getBytes(StandardCharsets.UTF_8);
-                clientThread.write(data);
-                binding.text.setText("");
-            }
-        });
         return binding.getRoot();
     }
 
-    private void disconnectFromServer() {
-        binding.disconnectFromServer.setEnabled(false);
-        clientThread.cancel();
-        Snackbar.make(getView(), "Connexion arrêté", Snackbar.LENGTH_LONG).show();
-        binding.connectToServer.setEnabled(true);
-    }
-
-    private void connectToServer() {
+    public void connectToServer() {
         if (selectedDevice == null) {
             Snackbar.make(getView(), "Veuillez sélectionner un appareil", Snackbar.LENGTH_LONG).show();
             return;
         }
-        binding.connectToServer.setEnabled(false);
 
-        clientThread = new BluetoothClientThread(clientHandler, selectedDevice, BluetoothAdapter.getDefaultAdapter(), baseUUID);
-        clientThread.start();
-        Snackbar.make(getView(),
-                "Connexion à \"" + selectedDevice.getName() + "\" " + selectedDevice.getAddress(),
-                Snackbar.LENGTH_LONG).show();
-        binding.disconnectFromServer.setEnabled(true);
+        if(((MainActivity) getActivity()).settings.getClientThread() != null)
+            try {
+                ((MainActivity) getActivity()).settings.getClientThread().cancel();
+            } catch (Exception e) {
+                Snackbar.make(getView(), "Erreur arrêt thread client", Snackbar.LENGTH_LONG).show();
+                Log.e(TAG, "connectToServer: ", e);
+                return;
+            }
+
+        try {
+            HashMap<String, Object> settings = ((MainActivity) getActivity()).settings.getSettings();
+            clientThread = new BluetoothClientThread(clientHandler, selectedDevice, BluetoothAdapter.getDefaultAdapter(), baseUUID);
+            settings.put("clientThread", clientThread);
+            ((MainActivity)getActivity()).settings.updateSettings(settings);
+        } catch (Exception e) {
+            Snackbar.make(getView(), "Erreur création thread client", Snackbar.LENGTH_LONG).show();
+            Log.e(TAG, "connectToServer: ", e);
+            return;
+        }
+
+        try {
+            ((MainActivity)getActivity()).settings.getClientThread().start();
+            Snackbar.make(getView(),
+                    "Connexion à \"" + selectedDevice.getName() + "\" " + selectedDevice.getAddress(),
+                    Snackbar.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Snackbar.make(getView(), "Erreur démarrage thread client", Snackbar.LENGTH_LONG).show();
+            Log.e(TAG, "connectToServer: ", e);
+            return;
+        }
     }
 
     @Override

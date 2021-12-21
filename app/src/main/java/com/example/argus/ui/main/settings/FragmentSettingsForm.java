@@ -1,5 +1,6 @@
 package com.example.argus.ui.main.settings;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -57,6 +58,12 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
                 resolutionModal.show(getChildFragmentManager(), "Résolution");
             }
         });
+        BluetoothDevice server = ((MainActivity) getActivity()).settings.getServer();
+        if (server != null) {
+            binding.connexionPreview.setText(server.getName() + " " + server.getAddress());
+        } else {
+            binding.connexionPreview.setText("Aucun serveur");
+        }
         binding.openConnexionModal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

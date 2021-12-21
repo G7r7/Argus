@@ -2,30 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ScrollView
+    <FrameLayout
+        android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/appbar_padding"
-            >
-            <Switch
-                android:id="@+id/bluetooth_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/select_bluetooth_mode"
-                />
-            <FrameLayout
-                android:id="@+id/frame_layout"
-                android:layout_below="@id/bluetooth_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-        </RelativeLayout>
-    </ScrollView>
-
+     />
 </RelativeLayout>
