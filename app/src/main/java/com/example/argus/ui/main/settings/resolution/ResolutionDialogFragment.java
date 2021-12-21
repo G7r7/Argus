@@ -22,12 +22,10 @@ import java.util.HashMap;
 
 public class ResolutionDialogFragment extends DialogFragment {
 
-    private MainActivity mainActivity;
     private View view;
 
-    public ResolutionDialogFragment(MainActivity mainActivity) {
+    public ResolutionDialogFragment() {
         super();
-        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -57,8 +55,8 @@ public class ResolutionDialogFragment extends DialogFragment {
             TextView errorTextView = view.findViewById(R.id.textViewError);
             TextView successTextView = view.findViewById(R.id.textViewSuccess);
 
-            widthTextEdit.setText(String.valueOf(mainActivity.settings.getWidthPx()));
-            heightTextEdit.setText(String.valueOf(mainActivity.settings.getHeightPx()));
+            widthTextEdit.setText(String.valueOf(((MainActivity) getActivity()).settings.getWidthPx()));
+            heightTextEdit.setText(String.valueOf(((MainActivity) getActivity()).settings.getHeightPx()));
 
             Button positiveButton = (Button) d.getButton(Dialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(new View.OnClickListener() {

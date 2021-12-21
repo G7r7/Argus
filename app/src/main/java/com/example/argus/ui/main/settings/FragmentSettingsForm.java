@@ -37,8 +37,8 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
-        resolutionModal = new ResolutionDialogFragment((MainActivity) getActivity());
-        connexionModal = new BluetoothConnexionDialogFragment((MainActivity) getActivity());
+        resolutionModal = new ResolutionDialogFragment();
+        connexionModal = new BluetoothConnexionDialogFragment();
     }
 
     @Override

@@ -28,12 +28,10 @@ import java.util.HashMap;
 
 public class BluetoothConnexionDialogFragment extends DialogFragment {
 
-    private MainActivity mainActivity;
     private View view;
 
-    public BluetoothConnexionDialogFragment(MainActivity mainActivity) {
+    public BluetoothConnexionDialogFragment() {
         super();
-        this.mainActivity = mainActivity;
     }
 
     @Override
