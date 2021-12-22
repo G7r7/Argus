@@ -3,8 +3,13 @@ package com.example.argus.ui.main.settings.bluetooth.client;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.argus.R;
 import com.example.argus.backend.common.BluetoothDeviceFoundReceiver;
@@ -23,14 +28,14 @@ public class DiscoveredDevicesList {
 
     public ArrayList<BluetoothDevice> discoveredDevices;
 
-    public DiscoveredDevicesList(Context context, ListView list) {
+    public DiscoveredDevicesList(Context context, RecyclerView list) {
         // init
         this.context = context;
         this.discoveredDevices = new ArrayList<BluetoothDevice>();
         bluetoothDeviceFoundReceiver = new BluetoothDeviceFoundReceiver(context, this);
-        discoveredDevicesAdapter = new BluetoothDeviceListAdapter(discoveredDevices,context);
+        discoveredDevicesAdapter = new BluetoothDeviceListAdapter(discoveredDevices);
         list.setAdapter(discoveredDevicesAdapter);
-        list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        list.setLayoutManager(new LinearLayoutManager(context));
     }
 
     public void discoverDevices() {

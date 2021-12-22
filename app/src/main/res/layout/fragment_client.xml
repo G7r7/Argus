@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:tag="clientFragment"
-    tools:context=".ui.client.ClientFragment">
+    >
     <Button
         android:id="@+id/get_bonded_devices"
         android:layout_width="wrap_content"
@@ -20,15 +20,17 @@
         android:layout_centerHorizontal="true"
         android:text="@string/search_bluetooth_devices" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bonded_device_names_list"
+        android:listSelector="@drawable/list_selector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/search_bluetooth_devices"
         android:layout_centerHorizontal="true" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/detected_device_names_list"
+        android:listSelector="@drawable/list_selector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/bonded_device_names_list"

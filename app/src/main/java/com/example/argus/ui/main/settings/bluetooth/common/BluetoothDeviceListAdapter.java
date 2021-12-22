@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.argus.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class BluetoothDeviceListAdapter extends BaseAdapter {
+public class BluetoothDeviceListAdapter extends RecyclerView.Adapter<BluetoothDeviceListAdapter.ViewHolder> {
 
     private HashMap<Integer, String> bluetoothDeviceTypes = new HashMap<Integer, String>() {{
             put(1, "Miscellaneous");
@@ -38,72 +40,56 @@ public class BluetoothDeviceListAdapter extends BaseAdapter {
 
     private static final String TAG = "TEST";
     private ArrayList<BluetoothDevice> dataSet;
-    Context mContext;
 
-    // View lookup cache
-    private static class ViewHolder {
+    public BluetoothDeviceListAdapter(ArrayList<BluetoothDevice> data) {
+        super();
+        this.dataSet = data;
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtName;
         TextView txtAddress;
         TextView txtType;
         TextView txtBondState;
-    }
-
-    public BluetoothDeviceListAdapter(ArrayList<BluetoothDevice> data, Context context) {
-        super();
-        this.dataSet = data;
-        this.mContext = context;
-    }
-
-    @Override
-    public int getCount() {
-        return dataSet.size();
-    }
-
-    @Override
-    public BluetoothDevice getItem(int i) {
-        return dataSet.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
-        BluetoothDevice device = getItem(position);
-        // Check if an existing view is being reused, otherwise inflate the view
-        ViewHolder viewHolder; // view lookup cache stored in tag
-
-        final View result;
-
-        if (convertView == null) {
-
-            viewHolder = new ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-            convertView = inflater.inflate(R.layout.bluetooth_device_row, parent, false);
-            viewHolder.txtName = (TextView) convertView.findViewById(R.id.name);
-            viewHolder.txtAddress = (TextView) convertView.findViewById(R.id.address);
-            viewHolder.txtType = (TextView) convertView.findViewById(R.id.type);
-            viewHolder.txtBondState = (TextView) convertView.findViewById(R.id.bond_state);
-
-            result = convertView;
-
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-            result = convertView;
+        public ViewHolder(View view) {
+            super(view);
+            // Define click listener for the ViewHolder's View
+            txtName = (TextView) view.findViewById(R.id.name);
+            txtAddress = (TextView) view.findViewById(R.id.address);
+            txtType = (TextView) view.findViewById(R.id.type);
+            txtBondState = (TextView) view.findViewById(R.id.bond_state);
         }
+        public TextView getTxtName() { return txtName; }
+        public TextView getTxtAddress() { return txtAddress; }
+        public TextView getTxtType() { return txtType; }
+        public TextView getTxtBondState() { return txtBondState; }
 
-        viewHolder.txtName.setText(device.getName());
-        viewHolder.txtAddress.setText(device.getAddress());
-        viewHolder.txtType.setText(bluetoothDeviceTypes.get(device.getType()));
-        viewHolder.txtBondState.setText(bluetoothDevicesBondStates.get(device.getBondState()));
+    }
 
+    // Create new views (invoked by the layout manager)
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        // Create a new view, which defines the UI of the list item
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.bluetooth_device_row, viewGroup, false);
+        return new ViewHolder(view);
+    }
 
+    // Replace the contents of a view (invoked by the layout manager)
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
-        // Return the completed view to render on screen
-        return convertView;
+        // Get element from your dataset at this position and replace the
+        // contents of the view with that element
+        viewHolder.getTxtName().setText(dataSet.get(position).getName());
+        viewHolder.getTxtAddress().setText(dataSet.get(position).getAddress());
+        viewHolder.getTxtType().setText(bluetoothDeviceTypes.get(dataSet.get(position).getType()));
+        viewHolder.getTxtBondState().setText(bluetoothDevicesBondStates.get(dataSet.get(position).getBondState()));
+    }
+
+    // Return the size of your dataset (invoked by the layout manager)
+    @Override
+    public int getItemCount() {
+        return dataSet.size();
     }
 }

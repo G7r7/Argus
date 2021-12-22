@@ -76,35 +76,7 @@ public class FragmentClient extends Fragment {
         bluetoothStateChangeReceiver = new BluetoothStateChangeReceiver(getContext());
         // Lists
         bondedDevicesList = new BondedDevicesList(getContext(), binding.bondedDeviceNamesList);
-        binding.bondedDeviceNamesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedDevice = bondedDevicesList.getBondedDevices().get(position);
-                Snackbar.make(view, selectedDevice.getName(), Snackbar.LENGTH_LONG).show();
-                for (int i = 0; i < binding.bondedDeviceNamesList.getChildCount(); i++) {
-                    if(position == i){
-                        binding.bondedDeviceNamesList.getChildAt(i).setBackgroundColor(Color.GREEN);
-                    }else{
-                        binding.bondedDeviceNamesList.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
-                    }
-                }
-            }
-        });
         discoveredDevicesList = new DiscoveredDevicesList(getContext(), binding.detectedDeviceNamesList);
-        binding.detectedDeviceNamesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedDevice = discoveredDevicesList.getDiscoveredDevices().get(position);
-                Snackbar.make(view, selectedDevice.getName(), Snackbar.LENGTH_LONG).show();
-                for (int i = 0; i < binding.detectedDeviceNamesList.getChildCount(); i++) {
-                    if(position == i){
-                        binding.detectedDeviceNamesList.getChildAt(i).setBackgroundColor(Color.GREEN);
-                    }else{
-                        binding.detectedDeviceNamesList.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
-                    }
-                }
-            }
-        });
         // Callback de click sur le boutton
         binding.getBondedDevices.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

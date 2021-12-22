@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green">#6A9A3A</color>
     <color name="red">#F44336</color>
+    <color name="list_background_pressed">#DDDDDD</color>
+    <color name="list_background">#FFFFFF</color>
 </resources>

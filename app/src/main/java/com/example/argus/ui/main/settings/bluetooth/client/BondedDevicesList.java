@@ -3,7 +3,11 @@ package com.example.argus.ui.main.settings.bluetooth.client;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.argus.ui.main.settings.bluetooth.common.BluetoothDeviceListAdapter;
 
@@ -18,13 +22,13 @@ public class BondedDevicesList {
 
     private ArrayList<BluetoothDevice> bondedDevices;
 
-    public BondedDevicesList(Context context, ListView list) {
+    public BondedDevicesList(Context context, RecyclerView list) {
         // Init
         bondedDevices = new ArrayList<BluetoothDevice>();
         // Bonded devices list
-        bondedDevicesAdapter = new BluetoothDeviceListAdapter(bondedDevices, context);
+        bondedDevicesAdapter = new BluetoothDeviceListAdapter(bondedDevices);
         list.setAdapter(bondedDevicesAdapter);
-        list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        list.setLayoutManager(new LinearLayoutManager(context));
     }
 
     public void fetchBondedDevices() {
