@@ -3,7 +3,10 @@ package com.example.argus.backend;
 import android.bluetooth.BluetoothDevice;
 
 import com.example.argus.backend.client.BluetoothClientThread;
+import com.example.argus.backend.server.BluetoothServerConnectedThread;
+import com.example.argus.backend.server.BluetoothServerThread;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Settings {
@@ -12,6 +15,8 @@ public class Settings {
     private int heightPx = 16;
     private BluetoothDevice server = null;
     private BluetoothClientThread clientThread = null;
+    private BluetoothServerThread serverThread = null;
+    private ArrayList<BluetoothServerConnectedThread> connexions = null;
 
     public void updateSettings(HashMap<String, Object> parameters) throws Exception {
         int widthPx = (int)parameters.get("widthPx");
@@ -24,6 +29,8 @@ public class Settings {
         this.server = server;
         BluetoothClientThread clientThread = (BluetoothClientThread)parameters.get("clientThread");
         this.clientThread = clientThread;
+        BluetoothServerThread serverThread = (BluetoothServerThread) parameters.get("serverThread");
+        this.serverThread = serverThread;
     }
 
     public HashMap<String, Object> getSettings() {
@@ -32,6 +39,7 @@ public class Settings {
         settings.put("heightPx", this.getHeightPx());
         settings.put("server", this.getServer());
         settings.put("clientThread", this.getClientThread());
+        settings.put("serverThread", this.getServerThread());
         return settings;
     }
 
@@ -41,4 +49,5 @@ public class Settings {
     public int getHeightPx() { return heightPx; }
     public BluetoothDevice getServer() { return server; }
     public BluetoothClientThread getClientThread() { return clientThread; }
+    public BluetoothServerThread getServerThread() { return serverThread; }
 }

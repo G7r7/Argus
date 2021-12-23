@@ -1,4 +1,4 @@
-package com.example.argus.ui.main.settings.bluetooth;
+package com.example.argus.ui.main.settings.bluetooth.client;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

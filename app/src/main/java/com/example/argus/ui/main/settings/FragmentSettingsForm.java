@@ -15,7 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.argus.MainActivity;
 import com.example.argus.databinding.FragmentSettingsFormBinding;
 import com.example.argus.ui.main.PageViewModel;
-import com.example.argus.ui.main.settings.bluetooth.BluetoothConnexionDialogFragment;
+import com.example.argus.ui.main.settings.bluetooth.client.BluetoothConnexionDialogFragment;
+import com.example.argus.ui.main.settings.bluetooth.server.BluetoothServerDialogFragment;
 import com.example.argus.ui.main.settings.resolution.ResolutionDialogFragment;
 
 
@@ -28,6 +29,7 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
     private FragmentSettingsFormBinding binding;
     private ResolutionDialogFragment resolutionModal;
     private BluetoothConnexionDialogFragment connexionModal;
+    private BluetoothServerDialogFragment serverModal;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -40,6 +42,7 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
         pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
         resolutionModal = new ResolutionDialogFragment();
         connexionModal = new BluetoothConnexionDialogFragment();
+        serverModal = new BluetoothServerDialogFragment();
     }
 
     @Override
@@ -68,6 +71,12 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
             @Override
             public void onClick(View view) {
                 connexionModal.show(getChildFragmentManager(), "Connexion");
+            }
+        });
+        binding.openServerModal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                serverModal.show(getChildFragmentManager(), "Serveur (DEBUG)");
             }
         });
         View root = binding.getRoot();

@@ -66,7 +66,7 @@ public class FragmentServer extends Fragment {
         return binding.getRoot();
     }
 
-    private void stopServer() {
+    public void stopServer() {
         binding.button2.setEnabled(false);
         serverThread.cancel();
         Snackbar.make(getView(), "Serveur arrêté", Snackbar.LENGTH_LONG).show();
@@ -75,7 +75,7 @@ public class FragmentServer extends Fragment {
         binding.log.setVisibility(View.GONE);
     }
 
-    private void startServer() {
+    public void startServer() {
         binding.button.setEnabled(false);
         serverThread = new BluetoothServerThread(serverHandler, BluetoothAdapter.getDefaultAdapter(), baseUUID);
         serverThread.start();
