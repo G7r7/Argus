@@ -22,7 +22,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bonded_device_names_list"
-        android:listSelector="@drawable/list_selector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/search_bluetooth_devices"
@@ -30,7 +29,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/detected_device_names_list"
-        android:listSelector="@drawable/list_selector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/bonded_device_names_list"

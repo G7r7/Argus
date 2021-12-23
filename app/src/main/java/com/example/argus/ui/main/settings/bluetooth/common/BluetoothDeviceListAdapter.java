@@ -2,6 +2,8 @@ package com.example.argus.ui.main.settings.bluetooth.common;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,19 +42,30 @@ public class BluetoothDeviceListAdapter extends RecyclerView.Adapter<BluetoothDe
 
     private static final String TAG = "TEST";
     private ArrayList<BluetoothDevice> dataSet;
+    private int selectedPos = RecyclerView.NO_POSITION;
 
     public BluetoothDeviceListAdapter(ArrayList<BluetoothDevice> data) {
         super();
         this.dataSet = data;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtName;
         TextView txtAddress;
         TextView txtType;
         TextView txtBondState;
         public ViewHolder(View view) {
             super(view);
+            // Handle item click and set the selection
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Redraw the old selection and the new
+                    notifyItemChanged(selectedPos);
+                    selectedPos = getLayoutPosition();
+                    notifyItemChanged(selectedPos);
+                }
+            });
             // Define click listener for the ViewHolder's View
             txtName = (TextView) view.findViewById(R.id.name);
             txtAddress = (TextView) view.findViewById(R.id.address);
@@ -78,7 +91,14 @@ public class BluetoothDeviceListAdapter extends RecyclerView.Adapter<BluetoothDe
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-
+//        if(selectedPos == position){
+//            viewHolder.itemView.setBackgroundColor(Color.parseColor("#567845"));
+//        }
+//        else
+//        {
+//            viewHolder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+//        }
+        viewHolder.itemView.setSelected(selectedPos == position);
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         viewHolder.getTxtName().setText(dataSet.get(position).getName());
