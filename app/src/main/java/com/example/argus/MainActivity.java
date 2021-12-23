@@ -6,18 +6,24 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.example.argus.backend.Settings;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.argus.ui.main.SectionsPagerAdapter;
 import com.example.argus.databinding.ActivityMainBinding;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 
@@ -37,21 +43,32 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TEST";
 
+    void updateConnectionStatus() {
+        boolean status = false;
+        if(settings.getClientThread() != null)
+            status = settings.getClientThread().getMmSocket().isConnected();
+        if(status)
+            binding.connectionStatus.setText("Connecté");
+        else
+            binding.connectionStatus.setText("Déconnecté");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         this.askBluetoothPermission();
-
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                updateConnectionStatus();
+            }
+        }, 300);
     }
 
     private void askBluetoothPermission() {

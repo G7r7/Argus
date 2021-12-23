@@ -50,6 +50,15 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
                 case BluetoothAdapter.STATE_TURNING_ON:
                     Toast.makeText(context, "Bluetooth Turning ON", Toast.LENGTH_SHORT).show();
                     break;
+                case BluetoothAdapter.STATE_DISCONNECTED:
+                    Toast.makeText(context, "Bluetooth Disconnected", Toast.LENGTH_SHORT).show();
+                    break;
+                case BluetoothAdapter.STATE_CONNECTING:
+                    Toast.makeText(context, "Bluetooth Connecting", Toast.LENGTH_SHORT).show();
+                    break;
+                case BluetoothAdapter.STATE_CONNECTED:
+                    Toast.makeText(context, "Bluetooth Connected", Toast.LENGTH_SHORT).show();
+                    break;
             }
         }
     }

@@ -20,6 +20,11 @@ import java.util.UUID;
 public class BluetoothClientThread extends Thread {
     private static final String TAG = "TAG";
     private BluetoothAdapter bluetoothAdapter;
+
+    public BluetoothSocket getMmSocket() {
+        return mmSocket;
+    }
+
     private final BluetoothSocket mmSocket;
     private final BluetoothDevice mmDevice;
     private Handler mHandler;
