@@ -48,39 +48,21 @@ public class FragmentServer extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         // Inflate layout
         binding = FragmentServerBinding.inflate(inflater);
-        // Buttons
-        binding.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startServer();
-            }
-        });
-        binding.button2.setEnabled(false);
-        binding.button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                stopServer();
-            }
-        });
         // return root
         return binding.getRoot();
     }
 
     public void stopServer() {
-        binding.button2.setEnabled(false);
         serverThread.cancel();
         Snackbar.make(getView(), "Serveur arrêté", Snackbar.LENGTH_LONG).show();
-        binding.button.setEnabled(true);
         binding.log.setText("");
         binding.log.setVisibility(View.GONE);
     }
 
     public void startServer() {
-        binding.button.setEnabled(false);
         serverThread = new BluetoothServerThread(serverHandler, BluetoothAdapter.getDefaultAdapter(), baseUUID);
         serverThread.start();
         Snackbar.make(getView(), "Serveur démarré", Snackbar.LENGTH_LONG).show();
-        binding.button2.setEnabled(true);
         binding.log.setVisibility(View.VISIBLE);
     }
 

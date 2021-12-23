@@ -31,7 +31,13 @@ public class BluetoothServerDialogFragment extends DialogFragment {
         // Get the layout inflater
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         view = inflater.inflate(R.layout.dialog_server, null);
-        builder.setPositiveButton(R.string.start_server,  new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Démarrer",  new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Do nothing here because we override this button later to change the close behaviour.
+            }
+        });
+        builder.setNegativeButton("Arrêter",  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Do nothing here because we override this button later to change the close behaviour.
@@ -62,6 +68,20 @@ public class BluetoothServerDialogFragment extends DialogFragment {
                     // or return them to the component that opened the dialog
                     try {
                         fragmentServer.startServer();
+                        // dismiss();
+                    } catch (Exception e) {
+                        Log.w("APPLY", "exception: " + e.getMessage() );
+                    }
+                }
+            });
+            Button negativeButton = (Button) d.getButton(Dialog.BUTTON_NEGATIVE);
+            negativeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // User clicked OK, so save the selectedItems results somewhere
+                    // or return them to the component that opened the dialog
+                    try {
+                        fragmentServer.stopServer();
                         // dismiss();
                     } catch (Exception e) {
                         Log.w("APPLY", "exception: " + e.getMessage() );
