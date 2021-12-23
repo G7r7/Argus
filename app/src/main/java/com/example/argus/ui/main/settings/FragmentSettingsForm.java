@@ -17,6 +17,7 @@ import com.example.argus.MainActivity;
 import com.example.argus.databinding.FragmentSettingsFormBinding;
 import com.example.argus.ui.main.PageViewModel;
 import com.example.argus.ui.main.settings.bluetooth.client.BluetoothConnexionDialogFragment;
+import com.example.argus.ui.main.settings.bluetooth.rawtext.BluetoothRawTextDialogFragment;
 import com.example.argus.ui.main.settings.bluetooth.server.BluetoothServerDialogFragment;
 import com.example.argus.ui.main.settings.resolution.ResolutionDialogFragment;
 
@@ -31,6 +32,7 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
     private ResolutionDialogFragment resolutionModal;
     private BluetoothConnexionDialogFragment connexionModal;
     private BluetoothServerDialogFragment serverModal;
+    private BluetoothRawTextDialogFragment rawTextModal;
 
     private Handler mHandler = new Handler();
     Runnable mStatusChecker = new Runnable() {
@@ -48,18 +50,7 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
 
     void updateSettingsPreviews() {
         // Resolution preview
-//        if(((MainActivity)getActivity()).settings.getClientThread() == null)
-//            binding.connexionPreview.setText("Aucun thread client");
-//        else if(((MainActivity)getActivity()).settings.getClientThread().getState() == Thread.State.NEW)
-//            binding.connexionPreview.setText("Thread client crée");
-//        else if(((MainActivity)getActivity()).settings.getClientThread().getState() == Thread.State.RUNNABLE) {
-//            binding.connexionPreview.setText("Thread client démarré");
-//            boolean status = false;
-//            if(status = ((MainActivity)getActivity()).settings.getClientThread().getMmSocket().isConnected())
-//                binding.connexionPreview.setText("Socket client connecté");
-//            else
-//                binding.connexionPreview.setText("Socket client déconnecté");
-//        }
+        // Done in "OnDismiss"
         // Client preview
         if(((MainActivity)getActivity()).settings.getClientThread() == null)
             binding.connexionPreview.setText("Aucun thread client");
@@ -95,6 +86,7 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
         resolutionModal = new ResolutionDialogFragment();
         connexionModal = new BluetoothConnexionDialogFragment();
         serverModal = new BluetoothServerDialogFragment();
+        rawTextModal = new BluetoothRawTextDialogFragment();
     }
 
     @Override
@@ -129,6 +121,12 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
             @Override
             public void onClick(View view) {
                 serverModal.show(getChildFragmentManager(), "Serveur (DEBUG)");
+            }
+        });
+        binding.openRawTextModal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rawTextModal.show(getChildFragmentManager(), "Raw Text (DEBUG)");
             }
         });
         View root = binding.getRoot();

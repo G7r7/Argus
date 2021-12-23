@@ -98,6 +98,22 @@
                     android:text="@string/tab_settings_set_server"
                     />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/raw_text_container"
+                android:layout_width="match_parent"
+                android:layout_below="@id/server_container"
+                android:layout_height="50dp"
+                android:layout_marginBottom="@dimen/appbar_padding"
+                >
+                <Button
+                    android:id="@+id/open_raw_text_modal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Envoyer du texte (DEBUG)"
+                    />
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
