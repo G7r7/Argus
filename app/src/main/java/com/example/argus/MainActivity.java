@@ -43,14 +43,33 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TEST";
 
-    void updateConnectionStatus() {
-        boolean status = false;
-        if(settings.getClientThread() != null)
-            status = settings.getClientThread().getMmSocket().isConnected();
-        if(status)
-            binding.connectionStatus.setText("Connecté");
-        else
-            binding.connectionStatus.setText("Déconnecté");
+    private Handler mHandler = new Handler();
+    Runnable mStatusChecker = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                updateClientThreadStatus(); //this function can change value of mInterval.
+            } finally {
+                // 100% guarantee that this always happens, even if
+                // your update method throws an exception
+                mHandler.postDelayed(mStatusChecker, 300);
+            }
+        }
+    };
+
+    void updateClientThreadStatus() {
+        if(settings.getClientThread() == null)
+            binding.clientThreadStatus.setText("Aucun thread client");
+        else if(settings.getClientThread().getState() == Thread.State.NEW)
+            binding.clientThreadStatus.setText("Thread client crée");
+        else if(settings.getClientThread().getState() == Thread.State.RUNNABLE) {
+            binding.clientThreadStatus.setText("Thread client démarré");
+            boolean status = false;
+            if(status = settings.getClientThread().getMmSocket().isConnected())
+                binding.clientThreadStatus.setText("Socket client connecté");
+            else
+                binding.clientThreadStatus.setText("Socket client déconnecté");
+        }
     }
 
     @Override
@@ -64,11 +83,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                updateConnectionStatus();
-            }
-        }, 300);
+        mStatusChecker.run();
     }
 
     private void askBluetoothPermission() {
