@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,20 +16,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Magnifier;
 
 import com.example.argus.MainActivity;
 import com.example.argus.backend.client.BluetoothClientThread;
 import com.example.argus.backend.common.BluetoothStateChangeReceiver;
 import com.example.argus.databinding.FragmentClientBinding;
 import com.example.argus.ui.main.settings.bluetooth.common.BluetoothDeviceListAdapter;
+import com.example.argus.ui.main.settings.bluetooth.common.BondedDevicesList;
+import com.example.argus.ui.main.settings.bluetooth.common.DiscoveredDevicesList;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class FragmentClient extends Fragment {
@@ -76,7 +74,19 @@ public class FragmentClient extends Fragment {
         bluetoothStateChangeReceiver = new BluetoothStateChangeReceiver(getContext());
         // Lists
         bondedDevicesList = new BondedDevicesList(getContext(), binding.bondedDeviceNamesList);
+        bondedDevicesList.getBondedDevicesAdapter().setOnItemClickListener(new BluetoothDeviceListAdapter.OnItemClicked() {
+            @Override
+            public void onItemClick(int position) {
+                selectedDevice = bondedDevicesList.getBondedDevices().get(position);
+            }
+        });
         discoveredDevicesList = new DiscoveredDevicesList(getContext(), binding.detectedDeviceNamesList);
+        discoveredDevicesList.getDiscoveredDevicesAdapter().setOnItemClickListener(new BluetoothDeviceListAdapter.OnItemClicked() {
+            @Override
+            public void onItemClick(int position) {
+                selectedDevice = discoveredDevicesList.getDiscoveredDevices().get(position);
+            }
+        });
         // Callback de click sur le boutton
         binding.getBondedDevices.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

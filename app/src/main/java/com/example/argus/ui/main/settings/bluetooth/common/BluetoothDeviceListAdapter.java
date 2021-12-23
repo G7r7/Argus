@@ -44,6 +44,14 @@ public class BluetoothDeviceListAdapter extends RecyclerView.Adapter<BluetoothDe
     private ArrayList<BluetoothDevice> dataSet;
     private int selectedPos = RecyclerView.NO_POSITION;
 
+    //declare interface
+    private OnItemClicked itemClickListener;
+
+    //make interface like this
+    public interface OnItemClicked {
+        void onItemClick(int position);
+    }
+
     public BluetoothDeviceListAdapter(ArrayList<BluetoothDevice> data) {
         super();
         this.dataSet = data;
@@ -60,6 +68,7 @@ public class BluetoothDeviceListAdapter extends RecyclerView.Adapter<BluetoothDe
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    itemClickListener.onItemClick(getLayoutPosition());
                     // Redraw the old selection and the new
                     notifyItemChanged(selectedPos);
                     selectedPos = getLayoutPosition();
@@ -91,13 +100,6 @@ public class BluetoothDeviceListAdapter extends RecyclerView.Adapter<BluetoothDe
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-//        if(selectedPos == position){
-//            viewHolder.itemView.setBackgroundColor(Color.parseColor("#567845"));
-//        }
-//        else
-//        {
-//            viewHolder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
-//        }
         viewHolder.itemView.setSelected(selectedPos == position);
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
@@ -112,4 +114,9 @@ public class BluetoothDeviceListAdapter extends RecyclerView.Adapter<BluetoothDe
     public int getItemCount() {
         return dataSet.size();
     }
+
+    public void setOnItemClickListener(OnItemClicked listener) {
+        this.itemClickListener = listener;
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.example.argus.ui.main.settings.bluetooth.client;
+package com.example.argus.ui.main.settings.bluetooth.common;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -18,6 +18,9 @@ import com.example.argus.ui.main.settings.bluetooth.common.BluetoothDeviceListAd
 import java.util.ArrayList;
 
 public class DiscoveredDevicesList {
+    public BluetoothDeviceListAdapter getDiscoveredDevicesAdapter() {
+        return discoveredDevicesAdapter;
+    }
     private final BluetoothDeviceListAdapter discoveredDevicesAdapter;
     private final BluetoothDeviceFoundReceiver bluetoothDeviceFoundReceiver;
     private final Context context;

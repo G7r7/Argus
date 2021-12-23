@@ -8,7 +8,7 @@ import android.content.IntentFilter;
 import android.widget.Toast;
 
 import com.example.argus.R;
-import com.example.argus.ui.main.settings.bluetooth.client.DiscoveredDevicesList;
+import com.example.argus.ui.main.settings.bluetooth.common.DiscoveredDevicesList;
 
 public class BluetoothDeviceFoundReceiver extends BroadcastReceiver {
     private Context context;
