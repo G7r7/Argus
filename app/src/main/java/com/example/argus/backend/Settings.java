@@ -16,7 +16,7 @@ public class Settings {
     private BluetoothDevice server = null;
     private BluetoothClientThread clientThread = null;
     private BluetoothServerThread serverThread = null;
-    private ArrayList<BluetoothServerConnectedThread> connexions = null;
+    private BluetoothServerConnectedThread serverConnectedThread = null;
 
     public void updateSettings(HashMap<String, Object> parameters) throws Exception {
         int widthPx = (int)parameters.get("widthPx");
@@ -31,6 +31,9 @@ public class Settings {
         this.clientThread = clientThread;
         BluetoothServerThread serverThread = (BluetoothServerThread) parameters.get("serverThread");
         this.serverThread = serverThread;
+        BluetoothServerConnectedThread serverConnectedThread =
+                (BluetoothServerConnectedThread) parameters.get("serverConnectedThread");
+        this.serverConnectedThread = serverConnectedThread;
     }
 
     public HashMap<String, Object> getSettings() {
@@ -40,6 +43,7 @@ public class Settings {
         settings.put("server", this.getServer());
         settings.put("clientThread", this.getClientThread());
         settings.put("serverThread", this.getServerThread());
+        settings.put("serverConnectedThread", this.getServerConnectedThread());
         return settings;
     }
 
@@ -50,4 +54,7 @@ public class Settings {
     public BluetoothDevice getServer() { return server; }
     public BluetoothClientThread getClientThread() { return clientThread; }
     public BluetoothServerThread getServerThread() { return serverThread; }
+    public BluetoothServerConnectedThread getServerConnectedThread() {
+        return serverConnectedThread;
+    }
 }

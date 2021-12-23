@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     android:tag="clientFragment"
     >
+    <TextView
+        android:visibility="visible"
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginBottom="@dimen/appbar_padding"
+        />
     <Button
         android:id="@+id/get_bonded_devices"
         android:layout_width="wrap_content"

@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,57 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
     private ResolutionDialogFragment resolutionModal;
     private BluetoothConnexionDialogFragment connexionModal;
     private BluetoothServerDialogFragment serverModal;
+
+    private Handler mHandler = new Handler();
+    Runnable mStatusChecker = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                updateSettingsPreviews(); //this function can change value of mInterval.
+            } finally {
+                // 100% guarantee that this always happens, even if
+                // your update method throws an exception
+                mHandler.postDelayed(mStatusChecker, 300);
+            }
+        }
+    };
+
+    void updateSettingsPreviews() {
+        // Resolution preview
+//        if(((MainActivity)getActivity()).settings.getClientThread() == null)
+//            binding.connexionPreview.setText("Aucun thread client");
+//        else if(((MainActivity)getActivity()).settings.getClientThread().getState() == Thread.State.NEW)
+//            binding.connexionPreview.setText("Thread client crée");
+//        else if(((MainActivity)getActivity()).settings.getClientThread().getState() == Thread.State.RUNNABLE) {
+//            binding.connexionPreview.setText("Thread client démarré");
+//            boolean status = false;
+//            if(status = ((MainActivity)getActivity()).settings.getClientThread().getMmSocket().isConnected())
+//                binding.connexionPreview.setText("Socket client connecté");
+//            else
+//                binding.connexionPreview.setText("Socket client déconnecté");
+//        }
+        // Client preview
+        if(((MainActivity)getActivity()).settings.getClientThread() == null)
+            binding.connexionPreview.setText("Aucun thread client");
+        else if(((MainActivity)getActivity()).settings.getClientThread().getState() == Thread.State.NEW)
+            binding.connexionPreview.setText("Thread client crée");
+        else if(((MainActivity)getActivity()).settings.getClientThread().getState() == Thread.State.RUNNABLE) {
+            binding.connexionPreview.setText("Thread client démarré");
+            boolean status = false;
+            if(status = ((MainActivity)getActivity()).settings.getClientThread().getMmSocket().isConnected())
+                binding.connexionPreview.setText("Socket client connecté");
+            else
+                binding.connexionPreview.setText("Socket client déconnecté");
+        }
+        // Server Preview
+        if(((MainActivity)getActivity()).settings.getServerThread() == null)
+            binding.serverPreview.setText("Aucun thread Serveur");
+        else if(((MainActivity)getActivity()).settings.getServerThread().getState() == Thread.State.NEW)
+            binding.serverPreview.setText("Thread serveur crée");
+        else if(((MainActivity)getActivity()).settings.getServerThread().getState() == Thread.State.RUNNABLE) {
+            binding.serverPreview.setText("Thread serveur démarré");
+        }
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -80,6 +132,7 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
             }
         });
         View root = binding.getRoot();
+        mStatusChecker.run();
         return root;
     }
 

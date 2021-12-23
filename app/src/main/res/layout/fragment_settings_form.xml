@@ -95,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/tab_settings_set_connexion"
+                    android:text="@string/tab_settings_set_server"
                     />
             </RelativeLayout>
         </RelativeLayout>
