@@ -34,46 +34,6 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
     private BluetoothServerDialogFragment serverModal;
     private BluetoothRawTextDialogFragment rawTextModal;
 
-    private Handler mHandler = new Handler();
-    Runnable mStatusChecker = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                updateSettingsPreviews(); //this function can change value of mInterval.
-            } finally {
-                // 100% guarantee that this always happens, even if
-                // your update method throws an exception
-                mHandler.postDelayed(mStatusChecker, 300);
-            }
-        }
-    };
-
-    void updateSettingsPreviews() {
-        // Resolution preview
-        // Done in "OnDismiss"
-        // Client preview
-        if(((MainActivity)getActivity()).settings.getClientThread() == null)
-            binding.connexionPreview.setText("Aucun thread client");
-        else if(((MainActivity)getActivity()).settings.getClientThread().getState() == Thread.State.NEW)
-            binding.connexionPreview.setText("Thread client crée");
-        else if(((MainActivity)getActivity()).settings.getClientThread().getState() == Thread.State.RUNNABLE) {
-            binding.connexionPreview.setText("Thread client démarré");
-            boolean status = false;
-            if(status = ((MainActivity)getActivity()).settings.getClientThread().getMmSocket().isConnected())
-                binding.connexionPreview.setText("Socket client connecté");
-            else
-                binding.connexionPreview.setText("Socket client déconnecté");
-        }
-        // Server Preview
-        if(((MainActivity)getActivity()).settings.getServerThread() == null)
-            binding.serverPreview.setText("Aucun thread Serveur");
-        else if(((MainActivity)getActivity()).settings.getServerThread().getState() == Thread.State.NEW)
-            binding.serverPreview.setText("Thread serveur crée");
-        else if(((MainActivity)getActivity()).settings.getServerThread().getState() == Thread.State.RUNNABLE) {
-            binding.serverPreview.setText("Thread serveur démarré");
-        }
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -130,16 +90,37 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
             }
         });
         View root = binding.getRoot();
-        mStatusChecker.run();
         return root;
     }
 
     @Override
     public void onDismiss(DialogInterface dialog) {
+        // Resolution preview
         int settingsWidthPx = ((MainActivity) getActivity()).settings.getWidthPx();
         int settingsHeightPx = ((MainActivity) getActivity()).settings.getHeightPx();
         String resolutionPreview = String.valueOf(settingsWidthPx) + " * " + String.valueOf(settingsHeightPx);
         binding.resolutionPreview.setText(resolutionPreview);
+        // Client preview
+        if(((MainActivity)getActivity()).settings.getClientThread() == null)
+            binding.connexionPreview.setText("Aucun thread client");
+        else if(((MainActivity)getActivity()).settings.getClientThread().getState() == Thread.State.NEW)
+            binding.connexionPreview.setText("Thread client crée");
+        else if(((MainActivity)getActivity()).settings.getClientThread().getState() == Thread.State.RUNNABLE) {
+            binding.connexionPreview.setText("Thread client démarré");
+            boolean status = false;
+            if(status = ((MainActivity)getActivity()).settings.getClientThread().getMmSocket().isConnected())
+                binding.connexionPreview.setText("Socket client connecté");
+            else
+                binding.connexionPreview.setText("Socket client déconnecté");
+        }
+        // Server Preview
+        if(((MainActivity)getActivity()).settings.getServerThread() == null)
+            binding.serverPreview.setText("Aucun thread Serveur");
+        else if(((MainActivity)getActivity()).settings.getServerThread().getState() == Thread.State.NEW)
+            binding.serverPreview.setText("Thread serveur crée");
+        else if(((MainActivity)getActivity()).settings.getServerThread().getState() == Thread.State.RUNNABLE) {
+            binding.serverPreview.setText("Thread serveur démarré");
+        }
     }
 
     @Override
