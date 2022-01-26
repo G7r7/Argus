@@ -22,6 +22,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.argus.MainActivity;
+import com.example.argus.MainActivityViewModel;
+import com.example.argus.backend.Settings;
 import com.example.argus.databinding.FragmentTextFormBinding;
 
 import com.example.argus.R;
@@ -43,6 +45,7 @@ public class FragmentTextForm extends Fragment {
     private int backgroundColor = 0;
     private float fontSizePx = 12;
     private String text = "";
+    private MainActivityViewModel mainModel;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -67,6 +70,9 @@ public class FragmentTextForm extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        this.mainModel= new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
+        this.mainModel.getHeightPx().observe(getViewLifecycleOwner(), heightPx -> { this.refreshTextBitmapPreview(); });
+        this.mainModel.getWidthPx().observe(getViewLifecycleOwner(), widthPx -> { this.refreshTextBitmapPreview(); });
 
         binding = FragmentTextFormBinding.inflate(inflater, container, false);
         binding.EditText.addTextChangedListener(new TextWatcher() {
@@ -189,8 +195,8 @@ public class FragmentTextForm extends Fragment {
     }
 
     private Bitmap generateTextBitmap() {
-        int widthPx = ((MainActivity) getActivity()).settings.getWidthPx();
-        int heightPx = ((MainActivity) getActivity()).settings.getHeightPx();
+        int widthPx = this.mainModel.getWidthPx().getValue();
+        int heightPx = this.mainModel.getHeightPx().getValue();
         Bitmap bitmap = Bitmap.createBitmap(widthPx, heightPx, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
 

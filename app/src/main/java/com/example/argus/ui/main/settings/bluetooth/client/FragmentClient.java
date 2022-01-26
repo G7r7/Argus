@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.argus.MainActivity;
+import com.example.argus.MainActivityViewModel;
+import com.example.argus.backend.Settings;
 import com.example.argus.backend.client.BluetoothClientThread;
 import com.example.argus.backend.common.BluetoothStateChangeReceiver;
 import com.example.argus.databinding.FragmentClientBinding;
@@ -34,8 +36,8 @@ import java.util.UUID;
 public class FragmentClient extends Fragment {
 
     private static final String TAG = "LOG";
-    private ClientViewModel mViewModel;
     private FragmentClientBinding binding;
+    private MainActivityViewModel mainModel;
 
     private BluetoothAdapter bluetoothAdapter;
     ArrayList<BluetoothDevice> bondedDevices = new ArrayList<>();
@@ -47,17 +49,6 @@ public class FragmentClient extends Fragment {
     private BondedDevicesList bondedDevicesList;
     private DiscoveredDevicesList discoveredDevicesList;
     public BluetoothDevice selectedDevice = null;
-    private BluetoothClientThread clientThread;
-
-    private Handler clientHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            String text = new String((byte[])msg.obj, StandardCharsets.UTF_8);
-            Snackbar.make(getView(), text, Snackbar.LENGTH_LONG).show();
-            // Si on reçoit quelque chose on active le bouton
-        }
-    };
-
 
     public static FragmentClient newInstance() {
         return new FragmentClient();
@@ -66,6 +57,7 @@ public class FragmentClient extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        this.mainModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
         // Loading layout
         binding = FragmentClientBinding.inflate(inflater);
         // Logic
@@ -115,9 +107,9 @@ public class FragmentClient extends Fragment {
             return;
         }
 
-        if(((MainActivity) getActivity()).settings.getClientThread() != null)
+        if(this.mainModel.getClientThread().getValue() != null)
             try {
-                ((MainActivity) getActivity()).settings.getClientThread().cancel();
+                this.mainModel.getClientThread().getValue().cancel();
             } catch (Exception e) {
                 Snackbar.make(getView(), "Erreur arrêt thread client", Snackbar.LENGTH_LONG).show();
                 Log.e(TAG, "connectToServer: ", e);
@@ -125,10 +117,8 @@ public class FragmentClient extends Fragment {
             }
 
         try {
-            HashMap<String, Object> settings = ((MainActivity) getActivity()).settings.getSettings();
-            clientThread = new BluetoothClientThread(clientHandler, selectedDevice, BluetoothAdapter.getDefaultAdapter(), baseUUID);
-            settings.put("clientThread", clientThread);
-            ((MainActivity)getActivity()).settings.updateSettings(settings);
+            mainModel.setClientThread(
+                    new BluetoothClientThread(requireActivity(), selectedDevice, BluetoothAdapter.getDefaultAdapter(), baseUUID));
         } catch (Exception e) {
             Snackbar.make(getView(), "Erreur création thread client", Snackbar.LENGTH_LONG).show();
             Log.e(TAG, "connectToServer: ", e);
@@ -136,7 +126,7 @@ public class FragmentClient extends Fragment {
         }
 
         try {
-            ((MainActivity)getActivity()).settings.getClientThread().start();
+            this.mainModel.getClientThread().getValue().start();
             Snackbar.make(getView(),
                     "Connexion à \"" + selectedDevice.getName() + "\" " + selectedDevice.getAddress(),
                     Snackbar.LENGTH_LONG).show();
@@ -145,12 +135,5 @@ public class FragmentClient extends Fragment {
             Log.e(TAG, "connectToServer: ", e);
             return;
         }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(ClientViewModel.class);
-        // TODO: Use the ViewModel
     }
 }

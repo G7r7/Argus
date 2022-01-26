@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.argus.MainActivity;
+import com.example.argus.MainActivityViewModel;
+import com.example.argus.backend.Settings;
 import com.example.argus.databinding.FragmentPictureFormBinding;
 import com.example.argus.ui.main.PageViewModel;
 
@@ -51,7 +53,17 @@ public class FragmentPictureForm extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-
+        MainActivityViewModel model = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
+        model.getWidthPx().observe(getViewLifecycleOwner(), widthPx -> {
+            if (this.imageUri != null) {
+                this.displayAndConvertUri(Uri.parse(this.imageUri));
+            }
+        });
+        model.getHeightPx().observe(getViewLifecycleOwner(), heightPx -> {
+            if (this.imageUri != null) {
+                this.displayAndConvertUri(Uri.parse(this.imageUri));
+            }
+        });
         binding = FragmentPictureFormBinding.inflate(inflater, container, false);
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,8 +95,9 @@ public class FragmentPictureForm extends Fragment {
             int smallestDimension = bitmap.getWidth() > bitmap.getHeight() ? bitmap.getHeight() : bitmap.getWidth();
             Bitmap squareBitmap = Bitmap.createBitmap(bitmap, 0, 0, smallestDimension, smallestDimension);
 
-            int widthPx = ((MainActivity) getActivity()).settings.getWidthPx();
-            int heightPx = ((MainActivity) getActivity()).settings.getHeightPx();
+            MainActivityViewModel model = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
+            int widthPx = model.getWidthPx().getValue();
+            int heightPx = model.getHeightPx().getValue();
             Bitmap resizedBitmap = Bitmap.createScaledBitmap(squareBitmap, widthPx, heightPx, false);
             binding.imagePreview.setImageBitmap(resizedBitmap);
         } catch (IOException E) {

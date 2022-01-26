@@ -1,6 +1,7 @@
 package com.example.argus;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,14 +11,18 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.argus.ui.main.SectionsPagerAdapter;
@@ -30,7 +35,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    public Settings settings = new Settings();
+    private MainActivityViewModel model;
 
     public static final int MY_PERMISSION_CONNECT_BLUETOOTH = 1;
     public static final int MY_PERMISSION_ADVERTISE_BLUETOOTH = 2;
@@ -43,47 +48,39 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TEST";
 
-    private Handler mHandler = new Handler();
-    Runnable mStatusChecker = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                updateClientThreadStatus(); //this function can change value of mInterval.
-            } finally {
-                // 100% guarantee that this always happens, even if
-                // your update method throws an exception
-                mHandler.postDelayed(mStatusChecker, 300);
-            }
-        }
-    };
-
-    void updateClientThreadStatus() {
-        if(settings.getClientThread() == null)
+    private void updateClientThreadStatus() {
+        if(model.getClientThreadStatus().getValue() == null)
             binding.clientThreadStatus.setText("Aucun thread client");
-        else if(settings.getClientThread().getState() == Thread.State.NEW)
+        else if(model.getClientThreadStatus().getValue() == Thread.State.NEW)
             binding.clientThreadStatus.setText("Thread client crée");
-        else if(settings.getClientThread().getState() == Thread.State.RUNNABLE) {
+        else if(model.getClientThreadStatus().getValue() == Thread.State.RUNNABLE) {
             binding.clientThreadStatus.setText("Thread client démarré");
-            boolean status = false;
-            if(status = settings.getClientThread().getMmSocket().isConnected())
+            if(model.getIsClientThreadConnected().getValue())
                 binding.clientThreadStatus.setText("Socket client connecté");
-            else
-                binding.clientThreadStatus.setText("Socket client déconnecté");
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.askBluetoothPermission();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        model = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        this.updateClientThreadStatus();
+        model.getClientThreadStatus().observe(this, status -> { this.updateClientThreadStatus(); });
+        model.getIsClientThreadConnected().observe(this, connected -> { this.updateClientThreadStatus(); });
+        this.askBluetoothPermission();
         setContentView(binding.getRoot());
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
-        mStatusChecker.run();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@Nullable View parent, @NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+        return super.onCreateView(parent, name, context, attrs);
     }
 
     private void askBluetoothPermission() {
@@ -118,8 +115,10 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Fine location permission already granted", Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case MY_PERMISSION_COARSE_LOCATION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

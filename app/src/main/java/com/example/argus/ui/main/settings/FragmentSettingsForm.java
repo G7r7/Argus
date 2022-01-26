@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.argus.MainActivity;
+import com.example.argus.MainActivityViewModel;
+import com.example.argus.backend.Settings;
 import com.example.argus.databinding.FragmentSettingsFormBinding;
 import com.example.argus.ui.main.PageViewModel;
 import com.example.argus.ui.main.settings.bluetooth.client.BluetoothConnexionDialogFragment;
@@ -25,7 +27,7 @@ import com.example.argus.ui.main.settings.resolution.ResolutionDialogFragment;
 /**
  * A Settings form fragment to change settings
  */
-public class FragmentSettingsForm extends Fragment implements DialogInterface.OnDismissListener{
+public class FragmentSettingsForm extends Fragment {
 
     private PageViewModel pageViewModel;
     private FragmentSettingsFormBinding binding;
@@ -33,6 +35,7 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
     private BluetoothConnexionDialogFragment connexionModal;
     private BluetoothServerDialogFragment serverModal;
     private BluetoothRawTextDialogFragment rawTextModal;
+    private MainActivityViewModel mainModel;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -53,24 +56,22 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        this.mainModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
+        this.mainModel.getWidthPx().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
+        this.mainModel.getHeightPx().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
+        this.mainModel.getClientThreadStatus().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
+        this.mainModel.getIsClientThreadConnected().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
+        this.mainModel.getServerThread().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
+        this.mainModel.getServerThreadStatus().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
+
 
         binding = FragmentSettingsFormBinding.inflate(inflater, container, false);
-        int settingsWidthPx = ((MainActivity) getActivity()).settings.getWidthPx();
-        int settingsHeightPx = ((MainActivity) getActivity()).settings.getHeightPx();
-        String resolutionPreview = String.valueOf(settingsWidthPx) + " * " + String.valueOf(settingsHeightPx);
-        binding.resolutionPreview.setText(resolutionPreview);
         binding.openResolutionModal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 resolutionModal.show(getChildFragmentManager(), "Résolution");
             }
         });
-        BluetoothDevice server = ((MainActivity) getActivity()).settings.getServer();
-        if (server != null) {
-            binding.connexionPreview.setText(server.getName() + " " + server.getAddress());
-        } else {
-            binding.connexionPreview.setText("Aucun serveur");
-        }
         binding.openConnexionModal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,34 +94,30 @@ public class FragmentSettingsForm extends Fragment implements DialogInterface.On
         return root;
     }
 
-    @Override
-    public void onDismiss(DialogInterface dialog) {
+    private void updatePreviews() {
         // Resolution preview
-        int settingsWidthPx = ((MainActivity) getActivity()).settings.getWidthPx();
-        int settingsHeightPx = ((MainActivity) getActivity()).settings.getHeightPx();
+        int settingsWidthPx = this.mainModel.getWidthPx().getValue();
+        int settingsHeightPx = this.mainModel.getHeightPx().getValue();
         String resolutionPreview = String.valueOf(settingsWidthPx) + " * " + String.valueOf(settingsHeightPx);
         binding.resolutionPreview.setText(resolutionPreview);
-        // Client preview
-        if(((MainActivity)getActivity()).settings.getClientThread() == null)
-            binding.connexionPreview.setText("Aucun thread client");
-        else if(((MainActivity)getActivity()).settings.getClientThread().getState() == Thread.State.NEW)
-            binding.connexionPreview.setText("Thread client crée");
-        else if(((MainActivity)getActivity()).settings.getClientThread().getState() == Thread.State.RUNNABLE) {
-            binding.connexionPreview.setText("Thread client démarré");
-            boolean status = false;
-            if(status = ((MainActivity)getActivity()).settings.getClientThread().getMmSocket().isConnected())
-                binding.connexionPreview.setText("Socket client connecté");
-            else
-                binding.connexionPreview.setText("Socket client déconnecté");
+
+        // Connexion setting
+        BluetoothDevice server = this.mainModel.getServerDevice().getValue();
+        if (server != null) {
+            binding.connexionPreview.setText(server.getName() + " " + server.getAddress());
+        } else {
+            binding.connexionPreview.setText("Aucun serveur");
         }
+
         // Server Preview
-        if(((MainActivity)getActivity()).settings.getServerThread() == null)
+        if(this.mainModel.getServerThread().getValue() == null)
             binding.serverPreview.setText("Aucun thread Serveur");
-        else if(((MainActivity)getActivity()).settings.getServerThread().getState() == Thread.State.NEW)
+        else if(this.mainModel.getServerThread().getValue().getState() == Thread.State.NEW)
             binding.serverPreview.setText("Thread serveur crée");
-        else if(((MainActivity)getActivity()).settings.getServerThread().getState() == Thread.State.RUNNABLE) {
+        else if(this.mainModel.getServerThread().getValue().getState() == Thread.State.RUNNABLE)
             binding.serverPreview.setText("Thread serveur démarré");
-        }
+        else if(this.mainModel.getServerThread().getValue().getState() == Thread.State.TERMINATED)
+            binding.serverPreview.setText("Serveur arrêté");
     }
 
     @Override

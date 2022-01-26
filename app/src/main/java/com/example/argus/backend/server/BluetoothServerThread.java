@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.argus.MainActivity;
+import com.example.argus.MainActivityViewModel;
 import com.example.argus.backend.common.MessageConstants;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -15,13 +17,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import android.os.Handler;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 public class BluetoothServerThread extends Thread {
     private static final String TAG = "TAG";
     private final BluetoothServerSocket mmServerSocket;
     private Handler handler;
-    private BluetoothServerConnectedThread connectedThread = null;
+    private BluetoothServerConnectedThread connectedThread;
+    private MainActivityViewModel model;
 
-    public BluetoothServerThread(Handler serverHandler, BluetoothAdapter bluetoothAdapter, UUID uuid) {
+    public BluetoothServerThread(FragmentActivity activity, Handler serverHandler, BluetoothAdapter bluetoothAdapter, UUID uuid) {
+        this.model = new ViewModelProvider(activity).get(MainActivityViewModel.class);
         handler = serverHandler;
         // Use a temporary object that is later assigned to mmServerSocket
         // because mmServerSocket is final.
@@ -33,11 +40,13 @@ public class BluetoothServerThread extends Thread {
             Log.e(TAG, "Socket's listen() method failed", e);
         }
         mmServerSocket = tmp;
+        model.setServerThreadStatus(this.getState());
     }
 
     public void run() {
         BluetoothSocket socket = null;
         // Keep listening until exception occurs or a socket is returned.
+        model.setServerThreadStatus(this.getState());
         while (true) {
             try {
                 String msg = "En attente de conexion ...";
@@ -63,6 +72,7 @@ public class BluetoothServerThread extends Thread {
                 break;
             }
         }
+        model.setServerThreadStatus(this.getState());
     }
 
     // Closes the connect socket and causes the thread to finish.
@@ -74,5 +84,6 @@ public class BluetoothServerThread extends Thread {
         } catch (IOException e) {
             Log.e(TAG, "Could not close the connect socket", e);
         }
+        model.setServerThreadStatus(this.getState());
     }
 }

@@ -1,5 +1,6 @@
 package com.example.argus.backend.client;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -9,7 +10,13 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.argus.MainActivity;
+import com.example.argus.MainActivityViewModel;
 import com.example.argus.backend.common.MessageConstants;
+import com.example.argus.ui.main.settings.bluetooth.client.FragmentClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,19 +34,18 @@ public class BluetoothClientThread extends Thread {
 
     private final BluetoothSocket mmSocket;
     private final BluetoothDevice mmDevice;
-    private Handler mHandler;
     private byte[] mmBuffer; // mmBuffer store for the stream
     private InputStream mmInStream;
     private OutputStream mmOutStream;
+    private MainActivityViewModel model;
 
-    public BluetoothClientThread(Handler handler, BluetoothDevice device, BluetoothAdapter bluetoothAdapter, UUID uuid) {
+    public BluetoothClientThread(FragmentActivity activity, BluetoothDevice device, BluetoothAdapter bluetoothAdapter, UUID uuid) {
+        this.model = new ViewModelProvider(activity).get(MainActivityViewModel.class);
         // Use a temporary object that is later assigned to mmSocket
         // because mmSocket is final.
         this.bluetoothAdapter = bluetoothAdapter;
-        this.mHandler = handler;
         BluetoothSocket tmp = null;
         mmDevice = device;
-
         try {
             // Get a BluetoothSocket to connect with the given BluetoothDevice.
             // MY_UUID is the app's UUID string, also used in the server code.
@@ -48,6 +54,8 @@ public class BluetoothClientThread extends Thread {
             Log.e(TAG, "Socket's create() method failed", e);
         }
         mmSocket = tmp;
+        model.setClientThreadStatus(this.getState());
+        model.setIsClientThreadConnected(this.mmSocket.isConnected());
     }
 
     public void run() {
@@ -90,28 +98,19 @@ public class BluetoothClientThread extends Thread {
         mmInStream = tmpIn;
         mmOutStream = tmpOut;
 
-        String text = "Connexion établie !";
-        mmBuffer = text.getBytes(StandardCharsets.UTF_8);
-        Message writtenMsg = mHandler.obtainMessage(
-                MessageConstants.MESSAGE_WRITE, -1, -1, mmBuffer);
-        writtenMsg.sendToTarget();
+//        String text = "Connexion établie !";
+
+        model.setClientThreadStatus(this.getState());
+        model.setIsClientThreadConnected(this.mmSocket.isConnected());
     }
 
     // Call this from the main activity to send data to the remote device.
     public void write(byte[] bytes) {
         try {
             mmOutStream.write(bytes);
-
-            // Share the sent message with the UI activity.
-            mmBuffer = bytes;
-            Message writtenMsg = mHandler.obtainMessage(
-                    MessageConstants.MESSAGE_WRITE, -1, -1, mmBuffer);
-            writtenMsg.sendToTarget();
         } catch (IOException e) {
             Log.e(TAG, "Error occurred when sending data", e);
-            String msg = "Error occurred when sending data";
-            Message writtenMsg = mHandler.obtainMessage(
-                    MessageConstants.MESSAGE_WRITE, -1, -1, msg.getBytes(StandardCharsets.UTF_8));
+//            String msg = "Error occurred when sending data";
         }
     }
 
@@ -122,5 +121,7 @@ public class BluetoothClientThread extends Thread {
         } catch (IOException e) {
             Log.e(TAG, "Could not close the client socket", e);
         }
+        model.setClientThreadStatus(this.getState());
+        model.setIsClientThreadConnected(this.mmSocket.isConnected());
     }
 }

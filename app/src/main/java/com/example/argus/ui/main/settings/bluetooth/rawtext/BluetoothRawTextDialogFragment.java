@@ -13,15 +13,19 @@ import android.widget.EditText;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.argus.MainActivity;
+import com.example.argus.MainActivityViewModel;
 import com.example.argus.R;
+import com.example.argus.backend.Settings;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.nio.charset.StandardCharsets;
 
 public class BluetoothRawTextDialogFragment extends DialogFragment {
 
+    private MainActivityViewModel mainModel;
     private static final String TAG = "TAG";
     private View view;
     public BluetoothRawTextDialogFragment() {
@@ -30,6 +34,7 @@ public class BluetoothRawTextDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        this.mainModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         LayoutInflater inflater = requireActivity().getLayoutInflater();
@@ -70,10 +75,10 @@ public class BluetoothRawTextDialogFragment extends DialogFragment {
 
     private void sendMessage() {
         try {
-            if(((MainActivity)getActivity()).settings.getClientThread() != null) {
+            if(this.mainModel.getClientThread().getValue() != null) {
                 EditText editText = ((EditText)view.findViewById(R.id.raw_edit_text));
                 byte[] data = String.valueOf(editText.getText()).getBytes(StandardCharsets.UTF_8);
-                ((MainActivity)getActivity()).settings.getClientThread().write(data);
+                this.mainModel.getClientThread().getValue().write(data);
                 editText.setText("");
             }
             else {

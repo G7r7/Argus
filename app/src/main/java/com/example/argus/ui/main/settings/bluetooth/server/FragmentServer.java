@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.argus.MainActivity;
+import com.example.argus.MainActivityViewModel;
+import com.example.argus.backend.Settings;
 import com.example.argus.backend.client.BluetoothClientThread;
 import com.example.argus.backend.server.BluetoothServerThread;
 import com.example.argus.databinding.FragmentServerBinding;
@@ -29,9 +31,9 @@ import java.util.UUID;
 public class FragmentServer extends Fragment {
 
     private static final String TAG = "TAG";
-    private ServerViewModel mViewModel;
     private FragmentServerBinding binding;
     UUID baseUUID = UUID.fromString("00000000-0000-1000-7007-00805F9B34FB");
+    private MainActivityViewModel mainModel;
 
     private Handler serverHandler = new Handler(){
         @Override
@@ -48,14 +50,14 @@ public class FragmentServer extends Fragment {
     }
 
     private void updateServerStatus() {
-        if(((MainActivity)getActivity()).settings.getServerThread() == null)
+        if(this.mainModel.getServerThread().getValue() == null)
             binding.status.setText("Serveur arrêté");
         else {
-            if (((MainActivity)getActivity()).settings.getServerThread().getState() == Thread.State.TERMINATED)
+            if (this.mainModel.getServerThread().getValue().getState() == Thread.State.TERMINATED)
                 binding.status.setText("Serveur arrêté");
-            if (((MainActivity)getActivity()).settings.getServerThread().getState() == Thread.State.NEW)
+            if (this.mainModel.getServerThread().getValue().getState() == Thread.State.NEW)
                 binding.status.setText("Serveur crée");
-            if (((MainActivity)getActivity()).settings.getServerThread().getState() == Thread.State.RUNNABLE) {
+            if (this.mainModel.getServerThread().getValue().getState() == Thread.State.RUNNABLE) {
                 binding.status.setText("Serveur démarré");
                 binding.log.setVisibility(View.VISIBLE);
             }
@@ -65,6 +67,8 @@ public class FragmentServer extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.mainModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
         // Inflate layout
         binding = FragmentServerBinding.inflate(inflater);
         // Setting view corresponding to current thread state
@@ -74,9 +78,9 @@ public class FragmentServer extends Fragment {
     }
 
     public void stopServer() {
-        if(((MainActivity) getActivity()).settings.getServerThread() != null)
+        if(this.mainModel.getServerThread().getValue() != null)
             try {
-                ((MainActivity) getActivity()).settings.getServerThread().cancel();
+                this.mainModel.getServerThread().getValue().cancel();
             } catch (Exception e) {
                 Snackbar.make(getView(), "Erreur arrêt thread serveur", Snackbar.LENGTH_LONG).show();
                 Log.e(TAG, "startServer: ", e);
@@ -85,13 +89,14 @@ public class FragmentServer extends Fragment {
         Snackbar.make(getView(), "Serveur arrêté", Snackbar.LENGTH_LONG).show();
         binding.log.setText("");
         binding.log.setVisibility(View.GONE);
+        mainModel.setServerThreadStatus(this.mainModel.getServerThread().getValue().getState());
         updateServerStatus();
     }
 
     public void startServer() {
-        if(((MainActivity) getActivity()).settings.getServerThread() != null)
+        if(this.mainModel.getServerThread().getValue() != null)
             try {
-                ((MainActivity) getActivity()).settings.getServerThread().cancel();
+                this.mainModel.getServerThread().getValue().cancel();
             } catch (Exception e) {
                 Snackbar.make(getView(), "Erreur arrêt thread serveur", Snackbar.LENGTH_LONG).show();
                 Log.e(TAG, "startServer: ", e);
@@ -99,10 +104,8 @@ public class FragmentServer extends Fragment {
             }
 
         try {
-            HashMap<String, Object> settings = ((MainActivity) getActivity()).settings.getSettings();
-            BluetoothServerThread serverThread = new BluetoothServerThread(serverHandler, BluetoothAdapter.getDefaultAdapter(), baseUUID);
-            settings.put("serverThread", serverThread);
-            ((MainActivity)getActivity()).settings.updateSettings(settings);
+            this.mainModel.setServerThread(
+                    new BluetoothServerThread(requireActivity(), serverHandler, BluetoothAdapter.getDefaultAdapter(), baseUUID));
         } catch (Exception e) {
             Snackbar.make(getView(), "Erreur création thread serveur", Snackbar.LENGTH_LONG).show();
             Log.e(TAG, "startServer: ", e);
@@ -110,7 +113,7 @@ public class FragmentServer extends Fragment {
         }
 
         try {
-            ((MainActivity)getActivity()).settings.getServerThread().start();
+            this.mainModel.getServerThread().getValue().start();
             Snackbar.make(getView(),
                     "Démarrage du thread serveur",
                     Snackbar.LENGTH_LONG).show();
@@ -124,12 +127,4 @@ public class FragmentServer extends Fragment {
         binding.log.setVisibility(View.VISIBLE);
         updateServerStatus();
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(ServerViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
 }

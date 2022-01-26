@@ -14,15 +14,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.argus.MainActivity;
+import com.example.argus.MainActivityViewModel;
 import com.example.argus.R;
+import com.example.argus.backend.Settings;
 
 import java.util.HashMap;
 
 public class ResolutionDialogFragment extends DialogFragment {
 
     private View view;
+    private MainActivityViewModel mainModel;
 
     public ResolutionDialogFragment() {
         super();
@@ -30,6 +34,7 @@ public class ResolutionDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        this.mainModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         LayoutInflater inflater = requireActivity().getLayoutInflater();
@@ -55,8 +60,8 @@ public class ResolutionDialogFragment extends DialogFragment {
             TextView errorTextView = view.findViewById(R.id.textViewError);
             TextView successTextView = view.findViewById(R.id.textViewSuccess);
 
-            widthTextEdit.setText(String.valueOf(((MainActivity) getActivity()).settings.getWidthPx()));
-            heightTextEdit.setText(String.valueOf(((MainActivity) getActivity()).settings.getHeightPx()));
+            widthTextEdit.setText(String.valueOf(this.mainModel.getWidthPx().getValue()));
+            heightTextEdit.setText(String.valueOf(this.mainModel.getHeightPx().getValue()));
 
             Button positiveButton = (Button) d.getButton(Dialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(new View.OnClickListener() {
@@ -72,11 +77,7 @@ public class ResolutionDialogFragment extends DialogFragment {
                         errorTextView.setVisibility(View.GONE);
                         int widthPx = Integer.parseInt(widthTextEdit.getText().toString());
                         int heightPx = Integer.parseInt(heightTextEdit.getText().toString());
-                        MainActivity myActivity = (MainActivity) getActivity();
-                        HashMap<String, Object> settings = myActivity.settings.getSettings();
-                        settings.put("widthPx", widthPx);
-                        settings.put("heightPx", heightPx);
-                        myActivity.settings.updateSettings(settings);
+                        mainModel.setResolution(widthPx, heightPx);
                         successTextView.setVisibility(View.VISIBLE);
                         AlphaAnimation fadeOut = new AlphaAnimation(1.0f , 0.0f );
                         successTextView.startAnimation(fadeOut);
@@ -93,12 +94,6 @@ public class ResolutionDialogFragment extends DialogFragment {
                 }
             });
         }
-    }
-
-    @Override
-    public void onDismiss(@NonNull DialogInterface dialog) {
-        super.onDismiss(dialog);
-        ((DialogInterface.OnDismissListener) getParentFragment()).onDismiss(dialog);
     }
 }
 
