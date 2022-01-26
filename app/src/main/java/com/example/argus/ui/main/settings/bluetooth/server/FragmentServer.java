@@ -39,7 +39,6 @@ public class FragmentServer extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             String text = new String((byte[])msg.obj, StandardCharsets.UTF_8);
-            Snackbar.make(getView(), text, Snackbar.LENGTH_LONG).show();
             // Si on reçoit quelque chose on l'ajoute au log
             binding.log.append(text + "\n");
         }
