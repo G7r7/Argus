@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     android:tag="clientFragment"
     >
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/connexion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="clientFragment"
+        android:visibility="gone"
+        >
     <TextView
         android:visibility="visible"
         android:id="@+id/status"
@@ -41,5 +49,51 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/bonded_device_names_list"
         android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/connected"
+        android:tag="clientFragment"
+        android:visibility="gone"
+        >
+        <TextView
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/appbar_padding"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/connected"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/loading"
+        android:tag="clientFragment"
+        android:visibility="gone"
+        >
+        <TextView
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/appbar_padding"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/loading_to_connect"
+            />
+
+    </RelativeLayout>
 
 </RelativeLayout>
+

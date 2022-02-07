@@ -9,10 +9,13 @@
         <entry key="..\:/Dvlp/Argus/app/src/main/res/drawable/list_item_bg_pressed.xml" value="0.21875" />
         <entry key="..\:/Dvlp/Argus/app/src/main/res/drawable/list_selector.xml" value="0.21875" />
         <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/activity_main.xml" value="0.21388888888888888" />
+        <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/dialog_bluetooth.xml" value="0.17552083333333332" />
         <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/dialog_raw_text.xml" value="0.1" />
         <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/dialog_resolution.xml" value="0.20260416666666667" />
         <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/dialog_server.xml" value="0.1" />
         <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/fragment_client.xml" value="0.23590054578532443" />
+        <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/fragment_client_connected.xml" value="0.22" />
+        <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/fragment_client_loading.xml" value="0.17794253938832252" />
         <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/fragment_connexion_form.xml" value="0.4223669923995657" />
         <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/fragment_main.xml" value="0.22" />
         <entry key="..\:/Dvlp/Argus/app/src/main/res/layout/fragment_picture_form.xml" value="0.22" />

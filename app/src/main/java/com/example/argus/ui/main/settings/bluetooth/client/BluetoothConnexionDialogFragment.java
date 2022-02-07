@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.argus.MainActivity;
+import com.example.argus.MainActivityViewModel;
 import com.example.argus.R;
 import com.example.argus.backend.client.BluetoothClientThread;
 import com.example.argus.ui.main.settings.bluetooth.client.FragmentClient;
@@ -34,6 +35,7 @@ public class BluetoothConnexionDialogFragment extends DialogFragment {
 
     private View view;
     private FragmentClient fragmentClient;
+    private MainActivityViewModel model;
 
     public BluetoothConnexionDialogFragment() {
         super();

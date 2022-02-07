@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 
 import com.example.argus.MainActivity;
 import com.example.argus.MainActivityViewModel;
+import com.example.argus.R;
 import com.example.argus.backend.Settings;
 import com.example.argus.backend.client.BluetoothClientThread;
 import com.example.argus.backend.common.BluetoothStateChangeReceiver;
@@ -60,6 +61,8 @@ public class FragmentClient extends Fragment {
         this.mainModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
         // Loading layout
         binding = FragmentClientBinding.inflate(inflater);
+        // Update View
+        this.updateView();
         // Logic
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // Callback de changement d'état du bluetooth
@@ -97,8 +100,36 @@ public class FragmentClient extends Fragment {
                 discoveredDevicesList.discoverDevices();
             }
         });
-        // Callback send button
+
+        this.mainModel.getClientThreadStatus().observe(getViewLifecycleOwner(), threadStatus -> { this.updateView(); });
+        this.mainModel.getIsClientThreadConnected().observe(getViewLifecycleOwner(), threadStatus -> { this.updateView(); });
+
         return binding.getRoot();
+    }
+
+    private void updateView() {
+        if(this.mainModel.getClientThreadStatus().getValue() == null) {
+            binding.connexion.setVisibility(View.VISIBLE);
+            binding.loading.setVisibility(View.GONE);
+            binding.connected.setVisibility(View.GONE);
+        }
+        else if(this.mainModel.getClientThreadStatus().getValue() == Thread.State.NEW){
+            binding.connexion.setVisibility(View.GONE);
+            binding.loading.setVisibility(View.VISIBLE);
+            binding.connected.setVisibility(View.GONE);
+        }
+        else if(this.mainModel.getClientThreadStatus().getValue() == Thread.State.RUNNABLE) {
+            {
+            binding.connexion.setVisibility(View.GONE);
+            binding.loading.setVisibility(View.VISIBLE);
+            binding.connected.setVisibility(View.GONE);
+        }
+            if(this.mainModel.getIsClientThreadConnected().getValue()){
+                binding.connexion.setVisibility(View.GONE);
+                binding.loading.setVisibility(View.GONE);
+                binding.connected.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     public void connectToServer() {
