@@ -121,7 +121,8 @@ public class BluetoothClientThread extends Thread {
         } catch (IOException e) {
             Log.e(TAG, "Could not close the client socket", e);
         }
-        model.setClientThreadStatus(this.getState());
-        model.setIsClientThreadConnected(this.mmSocket.isConnected());
+        model.setClientThreadStatus(null);
+        model.setIsClientThreadConnected(null);
+        model.setClientThread(null);
     }
 }

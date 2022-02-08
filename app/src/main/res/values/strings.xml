@@ -40,4 +40,6 @@
     <string name="disconnect_from_server">Se déconnecter</string>
     <string name="loading_to_connect">Connexion en cours ...</string>
     <string name="connected">Votre appareil est déjà connecté</string>
+    <string name="abort_connexion">Interrompre la connexion</string>
+    <string name="disconnect">Se déconnecter</string>
 </resources>
