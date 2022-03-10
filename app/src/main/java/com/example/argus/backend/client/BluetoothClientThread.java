@@ -49,7 +49,9 @@ public class BluetoothClientThread extends Thread {
         try {
             // Get a BluetoothSocket to connect with the given BluetoothDevice.
             // MY_UUID is the app's UUID string, also used in the server code.
-            tmp = device.createRfcommSocketToServiceRecord(uuid);
+            UUID moduleUuid = device.getUuids()[0].getUuid();
+            Log.e(TAG, "BluetoothClientThread: " + moduleUuid.toString());
+            tmp = device.createRfcommSocketToServiceRecord(moduleUuid);
         } catch (IOException e) {
             Log.e(TAG, "Socket's create() method failed", e);
         }
