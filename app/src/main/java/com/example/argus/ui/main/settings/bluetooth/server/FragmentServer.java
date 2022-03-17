@@ -16,16 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.argus.MainActivity;
 import com.example.argus.MainActivityViewModel;
-import com.example.argus.backend.Settings;
-import com.example.argus.backend.client.BluetoothClientThread;
 import com.example.argus.backend.server.BluetoothServerThread;
 import com.example.argus.databinding.FragmentServerBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class FragmentServer extends Fragment {

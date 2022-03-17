@@ -11,14 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.argus.MainActivity;
 import com.example.argus.MainActivityViewModel;
 import com.example.argus.R;
-import com.example.argus.backend.Settings;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.nio.charset.StandardCharsets;

@@ -2,34 +2,24 @@ package com.example.argus.ui.main.text;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.argus.MainActivity;
 import com.example.argus.MainActivityViewModel;
-import com.example.argus.backend.Settings;
 import com.example.argus.databinding.FragmentTextFormBinding;
 
 import com.example.argus.R;
 import com.example.argus.ui.main.PageViewModel;
-
-import java.util.ArrayList;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 

@@ -10,17 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.argus.MainActivity;
 import com.example.argus.MainActivityViewModel;
-import com.example.argus.R;
-import com.example.argus.backend.Settings;
 import com.example.argus.backend.client.BluetoothClientThread;
 import com.example.argus.backend.common.BluetoothStateChangeReceiver;
 import com.example.argus.databinding.FragmentClientBinding;
@@ -29,9 +24,7 @@ import com.example.argus.ui.main.settings.bluetooth.common.BondedDevicesList;
 import com.example.argus.ui.main.settings.bluetooth.common.DiscoveredDevicesList;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class FragmentClient extends Fragment {

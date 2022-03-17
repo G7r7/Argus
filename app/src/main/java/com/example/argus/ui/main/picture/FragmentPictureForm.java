@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.graphics.ColorSpace;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,16 +22,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.argus.MainActivity;
 import com.example.argus.MainActivityViewModel;
-import com.example.argus.backend.Settings;
+import com.example.argus.backend.EncodedBitmap;
 import com.example.argus.databinding.FragmentPictureFormBinding;
 import com.example.argus.ui.main.PageViewModel;
 
 import java.io.IOException;
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import java.sql.Array;
 
 
 /**
@@ -110,17 +105,9 @@ public class FragmentPictureForm extends Fragment {
             int widthPx = model.getWidthPx().getValue();
             int heightPx = model.getHeightPx().getValue();
             Bitmap resizedBitmap = Bitmap.createScaledBitmap(squareBitmap, widthPx, heightPx, false);
+            EncodedBitmap encodedBitmap = new EncodedBitmap(resizedBitmap, 2);
 
-            int[] rgbValues = rgbValuesFromBitmap(resizedBitmap);
-            int[] rgbValues1bit = new int[rgbValues.length];
-            for (int i = 0; i < rgbValues1bit.length; i++) {
-                rgbValues1bit[i] = Math.round((float)rgbValues[i]/255);
-            }
-
-            Bitmap transformedBitmap =
-                    BitmapFromRgbvalues1bit(rgbValues1bit, resizedBitmap.getWidth(), resizedBitmap.getHeight());
-
-            binding.imagePreview.setImageBitmap(transformedBitmap);
+            binding.imagePreview.setImageBitmap(encodedBitmap.getTransformedBitmap());
         } catch (IOException E) {
             Log.e("File", "Fichier introuvable.");
         }

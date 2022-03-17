@@ -15,8 +15,8 @@ import android.os.Handler;
 
 public class MainActivityViewModel extends ViewModel {
 
-    private final MutableLiveData<Integer> widthPx = new MutableLiveData<>(16);
-    private final MutableLiveData<Integer> heightPx = new MutableLiveData<>(16);
+    private final MutableLiveData<Integer> widthPx = new MutableLiveData<>(32);
+    private final MutableLiveData<Integer> heightPx = new MutableLiveData<>(32);
     private final MutableLiveData<BluetoothDevice> server = new MutableLiveData<>();
     private final MutableLiveData<BluetoothClientThread> clientThread = new MutableLiveData<>();
     private final MutableLiveData<BluetoothServerThread> serverThread = new MutableLiveData<>();

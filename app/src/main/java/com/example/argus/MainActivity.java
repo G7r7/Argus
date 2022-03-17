@@ -6,8 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.example.argus.backend.Settings;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
@@ -17,9 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -27,9 +22,6 @@ import android.widget.Toast;
 
 import com.example.argus.ui.main.SectionsPagerAdapter;
 import com.example.argus.databinding.ActivityMainBinding;
-
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {

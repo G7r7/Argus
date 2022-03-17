@@ -2,9 +2,7 @@ package com.example.argus.ui.main.settings;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.argus.MainActivity;
 import com.example.argus.MainActivityViewModel;
-import com.example.argus.backend.Settings;
 import com.example.argus.databinding.FragmentSettingsFormBinding;
 import com.example.argus.ui.main.PageViewModel;
 import com.example.argus.ui.main.settings.bluetooth.client.BluetoothConnexionDialogFragment;
