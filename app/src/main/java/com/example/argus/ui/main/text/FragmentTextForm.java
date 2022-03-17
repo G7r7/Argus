@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.argus.MainActivityViewModel;
+import com.example.argus.backend.EncodedBitmap;
 import com.example.argus.databinding.FragmentTextFormBinding;
 
 import com.example.argus.R;
@@ -181,7 +182,8 @@ public class FragmentTextForm extends Fragment {
 
     private void refreshTextBitmapPreview() {
         Bitmap b = generateTextBitmap();
-        binding.textPreview.setImageBitmap(b);
+        EncodedBitmap eb = new EncodedBitmap(b, 2);
+        binding.textPreview.setImageBitmap(eb.getTransformedBitmap());
     }
 
     private Bitmap generateTextBitmap() {
