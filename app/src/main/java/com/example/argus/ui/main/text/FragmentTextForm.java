@@ -22,6 +22,9 @@ import com.example.argus.databinding.FragmentTextFormBinding;
 import com.example.argus.R;
 import com.example.argus.ui.main.PageViewModel;
 
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 
@@ -36,6 +39,7 @@ public class FragmentTextForm extends Fragment {
     private float fontSizePx = 12;
     private String text = "";
     private MainActivityViewModel mainModel;
+    private int[] rgbValues;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -128,6 +132,16 @@ public class FragmentTextForm extends Fragment {
                 refreshTextBitmapPreview();
             }
         });
+        binding.buttonSend.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ByteBuffer buffer = ByteBuffer.allocate(rgbValues.length);
+                for (int value : rgbValues) {
+                    Byte octet = (byte)(value & 0xFF);
+                    buffer.put(octet);
+                }
+                mainModel.getClientThread().getValue().write(buffer.array());
+            }
+        });
         if(textColor != 0) {
             binding.button2.setBackgroundColor(textColor);
         }
@@ -182,6 +196,7 @@ public class FragmentTextForm extends Fragment {
     private void refreshTextBitmapPreview() {
         Bitmap b = generateTextBitmap();
         EncodedBitmap eb = new EncodedBitmap(b, this.mainModel.getBitsPerColor().getValue());
+        this.rgbValues = eb.getEncodedRGBValues();
         binding.textPreview.setImageBitmap(eb.getTransformedBitmap());
     }
 
