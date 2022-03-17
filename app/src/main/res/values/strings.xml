@@ -42,4 +42,6 @@
     <string name="connected">Votre appareil est déjà connecté</string>
     <string name="abort_connexion">Interrompre la connexion</string>
     <string name="disconnect">Se déconnecter</string>
+    <string name="tab_settings_type_bits_color">Nombre de bits par composante RGB</string>
+    <string name="tab_settings_change_color_bits">Bits par composante (RGB)</string>
 </resources>

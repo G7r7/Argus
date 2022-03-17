@@ -30,7 +30,6 @@ import petrov.kristiyan.colorpicker.ColorPicker;
  */
 public class FragmentTextForm extends Fragment {
 
-    private PageViewModel pageViewModel;
     private FragmentTextFormBinding binding;
     private int textColor = 0;
     private int backgroundColor = 0;
@@ -54,7 +53,6 @@ public class FragmentTextForm extends Fragment {
             this.backgroundColor = savedInstanceState.getInt("backgroundColor");
             this.fontSizePx = savedInstanceState.getFloat("fontSizePx");
         }
-        pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
     }
 
     @Override
@@ -64,6 +62,7 @@ public class FragmentTextForm extends Fragment {
         this.mainModel= new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
         this.mainModel.getHeightPx().observe(getViewLifecycleOwner(), heightPx -> { this.refreshTextBitmapPreview(); });
         this.mainModel.getWidthPx().observe(getViewLifecycleOwner(), widthPx -> { this.refreshTextBitmapPreview(); });
+        this.mainModel.getBitsPerColor().observe(getViewLifecycleOwner(), bits -> { this.refreshTextBitmapPreview(); });
 
         binding = FragmentTextFormBinding.inflate(inflater, container, false);
         binding.EditText.addTextChangedListener(new TextWatcher() {
@@ -182,7 +181,7 @@ public class FragmentTextForm extends Fragment {
 
     private void refreshTextBitmapPreview() {
         Bitmap b = generateTextBitmap();
-        EncodedBitmap eb = new EncodedBitmap(b, 2);
+        EncodedBitmap eb = new EncodedBitmap(b, this.mainModel.getBitsPerColor().getValue());
         binding.textPreview.setImageBitmap(eb.getTransformedBitmap());
     }
 

@@ -44,9 +44,37 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/color_bits_container"
+                android:layout_below="@id/resolution_container"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="@dimen/appbar_padding"
+                >
+                <TextView
+                    android:id="@+id/color_bits_preview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:background="@color/cardview_shadow_start_color"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:paddingHorizontal="@dimen/appbar_padding"
+                    android:layout_marginRight="@dimen/appbar_padding"
+                    />
+                <Button
+                    android:id="@+id/open_color_bits_modal"
+                    android:layout_toRightOf="@id/color_bits_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tab_settings_change_color_bits"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/connexion_container"
                 android:layout_width="match_parent"
-                android:layout_below="@id/resolution_container"
+                android:layout_below="@id/color_bits_container"
                 android:layout_height="50dp"
                 android:layout_marginBottom="@dimen/appbar_padding"
                 >

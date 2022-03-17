@@ -24,7 +24,7 @@ public class MainActivityViewModel extends ViewModel {
     private final MutableLiveData<Thread.State> clientThreadStatus = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isClientThreadConnected = new MutableLiveData<>(false);
     private final MutableLiveData<Thread.State> serverThreadStatus = new MutableLiveData<>();
-
+    private final MutableLiveData<Integer> bitsPerColor = new MutableLiveData<>(1);
 
     public void setResolution(int widthPx, int heightPx) throws Exception {
         if(!(widthPx > 0 && heightPx > 0))
@@ -39,7 +39,7 @@ public class MainActivityViewModel extends ViewModel {
     public void setClientThreadStatus(Thread.State state) { this.clientThreadStatus.postValue(state); }
     public void setIsClientThreadConnected(Boolean bool) { this.isClientThreadConnected.postValue(bool); }
     public void setServerThreadStatus(Thread.State state) { this.serverThreadStatus.postValue(state); }
-
+    public void setBitsPerColor(Integer bits) { this.bitsPerColor.postValue(bits); }
 
     public LiveData<Integer> getWidthPx() { return this.widthPx; }
     public LiveData<Integer> getHeightPx() { return this.heightPx; }
@@ -50,5 +50,5 @@ public class MainActivityViewModel extends ViewModel {
     public MutableLiveData<BluetoothServerThread> getServerThread() { return this.serverThread; }
     public MutableLiveData<BluetoothServerConnectedThread> getServerConnectedThread() { return this.serverConnectedThread; }
     public MutableLiveData<Thread.State> getServerThreadStatus() { return this.serverThreadStatus; }
-
+    public MutableLiveData<Integer> getBitsPerColor() { return this.bitsPerColor; }
 }

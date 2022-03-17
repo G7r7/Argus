@@ -34,7 +34,7 @@ import java.io.IOException;
  * A Picture form fragment for sending text to display
  */
 public class FragmentPictureForm extends Fragment {
-    private PageViewModel pageViewModel;
+    private MainActivityViewModel mainModel;
     private FragmentPictureFormBinding binding;
     int SELECT_PICTURE = 200;
     int RESULT_OK = 200;
@@ -52,20 +52,24 @@ public class FragmentPictureForm extends Fragment {
         if(savedInstanceState != null) {
             this.imageUri = savedInstanceState.getString("imageUri", null);
         }
-        pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
     }
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        MainActivityViewModel model = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
-        model.getWidthPx().observe(getViewLifecycleOwner(), widthPx -> {
+        this.mainModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
+        mainModel.getWidthPx().observe(getViewLifecycleOwner(), widthPx -> {
             if (this.imageUri != null) {
                 this.displayAndConvertUri(Uri.parse(this.imageUri));
             }
         });
-        model.getHeightPx().observe(getViewLifecycleOwner(), heightPx -> {
+        mainModel.getHeightPx().observe(getViewLifecycleOwner(), heightPx -> {
+            if (this.imageUri != null) {
+                this.displayAndConvertUri(Uri.parse(this.imageUri));
+            }
+        });
+        mainModel.getBitsPerColor().observe(getViewLifecycleOwner(), bits -> {
             if (this.imageUri != null) {
                 this.displayAndConvertUri(Uri.parse(this.imageUri));
             }
@@ -105,7 +109,7 @@ public class FragmentPictureForm extends Fragment {
             int widthPx = model.getWidthPx().getValue();
             int heightPx = model.getHeightPx().getValue();
             Bitmap resizedBitmap = Bitmap.createScaledBitmap(squareBitmap, widthPx, heightPx, false);
-            EncodedBitmap encodedBitmap = new EncodedBitmap(resizedBitmap, 2);
+            EncodedBitmap encodedBitmap = new EncodedBitmap(resizedBitmap, this.mainModel.getBitsPerColor().getValue());
 
             binding.imagePreview.setImageBitmap(encodedBitmap.getTransformedBitmap());
         } catch (IOException E) {
@@ -120,56 +124,5 @@ public class FragmentPictureForm extends Fragment {
             this.imageUri = imageUri.toString();
             displayAndConvertUri(imageUri);
         }
-    }
-
-    private int[] rgbValuesFromBitmap(Bitmap bitmap)
-    {
-        ColorMatrix colorMatrix = new ColorMatrix();
-        ColorFilter colorFilter = new ColorMatrixColorFilter(
-                colorMatrix);
-        Bitmap argbBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(argbBitmap);
-
-        Paint paint = new Paint();
-
-        paint.setColorFilter(colorFilter);
-        canvas.drawBitmap(bitmap, 0, 0, paint);
-
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int componentsPerPixel = 3;
-        int totalPixels = width * height;
-        int totalElements = totalPixels * componentsPerPixel;
-
-        int[] rgbValues = new int[totalElements];
-        @ColorInt int[] argbPixels = new int[totalPixels];
-        argbBitmap.getPixels(argbPixels, 0, width, 0, 0, width, height);
-        for (int i = 0; i < totalPixels; i++) {
-            @ColorInt int argbPixel = argbPixels[i];
-            int red = Color.red(argbPixel);
-            int green = Color.green(argbPixel);
-            int blue = Color.blue(argbPixel);
-            rgbValues[i * componentsPerPixel + 0] = red;
-            rgbValues[i * componentsPerPixel + 1] = green;
-            rgbValues[i * componentsPerPixel + 2] = blue;
-        }
-
-        return rgbValues;
-    }
-
-    private Bitmap BitmapFromRgbvalues1bit(int[] rgbValues, int width, int height)
-    {
-        int[] colors = new int[width*height];
-        for (int i = 2; i < rgbValues.length; i += 3) {
-            int A = 255;
-            int R = rgbValues[i-2]*255;
-            int G = rgbValues[i-1]*255;
-            int B = rgbValues[i]*255;
-            int color = (A & 0xff) << 24 | (R & 0xff) << 16 | (G & 0xff) << 8 | (B & 0xff);
-            colors[i/3] = color;
-        }
-
-        return Bitmap.createBitmap(colors, width, height, Bitmap.Config.ARGB_8888);
     }
 }

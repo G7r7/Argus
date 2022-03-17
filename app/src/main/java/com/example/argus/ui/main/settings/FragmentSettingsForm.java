@@ -17,6 +17,7 @@ import com.example.argus.ui.main.PageViewModel;
 import com.example.argus.ui.main.settings.bluetooth.client.BluetoothConnexionDialogFragment;
 import com.example.argus.ui.main.settings.bluetooth.rawtext.BluetoothRawTextDialogFragment;
 import com.example.argus.ui.main.settings.bluetooth.server.BluetoothServerDialogFragment;
+import com.example.argus.ui.main.settings.colorbits.ColorBitsDialogFragment;
 import com.example.argus.ui.main.settings.resolution.ResolutionDialogFragment;
 
 
@@ -28,6 +29,7 @@ public class FragmentSettingsForm extends Fragment {
     private PageViewModel pageViewModel;
     private FragmentSettingsFormBinding binding;
     private ResolutionDialogFragment resolutionModal;
+    private ColorBitsDialogFragment colorBitsModal;
     private BluetoothConnexionDialogFragment connexionModal;
     private BluetoothServerDialogFragment serverModal;
     private BluetoothRawTextDialogFragment rawTextModal;
@@ -43,6 +45,7 @@ public class FragmentSettingsForm extends Fragment {
         super.onCreate(savedInstanceState);
         pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
         resolutionModal = new ResolutionDialogFragment();
+        colorBitsModal = new ColorBitsDialogFragment();
         connexionModal = new BluetoothConnexionDialogFragment();
         serverModal = new BluetoothServerDialogFragment();
         rawTextModal = new BluetoothRawTextDialogFragment();
@@ -59,6 +62,7 @@ public class FragmentSettingsForm extends Fragment {
         this.mainModel.getIsClientThreadConnected().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
         this.mainModel.getServerThread().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
         this.mainModel.getServerThreadStatus().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
+        this.mainModel.getBitsPerColor().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
 
 
         binding = FragmentSettingsFormBinding.inflate(inflater, container, false);
@@ -66,6 +70,12 @@ public class FragmentSettingsForm extends Fragment {
             @Override
             public void onClick(View view) {
                 resolutionModal.show(getChildFragmentManager(), "Résolution");
+            }
+        });
+        binding.openColorBitsModal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                colorBitsModal.show(getChildFragmentManager(), "ColorBits");
             }
         });
         binding.openConnexionModal.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +106,10 @@ public class FragmentSettingsForm extends Fragment {
         int settingsHeightPx = this.mainModel.getHeightPx().getValue();
         String resolutionPreview = String.valueOf(settingsWidthPx) + " * " + String.valueOf(settingsHeightPx);
         binding.resolutionPreview.setText(resolutionPreview);
+
+        // Bits per Color preview
+        int bitsPerColor = this.mainModel.getBitsPerColor().getValue();
+        binding.colorBitsPreview.setText(String.valueOf(bitsPerColor));
 
         // Connexion setting
         BluetoothDevice server = this.mainModel.getServerDevice().getValue();
