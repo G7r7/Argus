@@ -49,9 +49,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_below="@id/imageView"
+                android:layout_marginBottom="@dimen/appbar_padding"
                 android:padding="@dimen/appbar_padding"
                 android:background="@drawable/border"
                 />
+            <Button
+                android:id="@+id/buttonSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imagePreview"
+                android:layout_centerHorizontal="true"
+                android:enabled="false"
+                android:text="@string/send" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

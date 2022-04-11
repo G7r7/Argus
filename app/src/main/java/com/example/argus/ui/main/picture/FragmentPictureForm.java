@@ -28,6 +28,7 @@ import com.example.argus.databinding.FragmentPictureFormBinding;
 import com.example.argus.ui.main.PageViewModel;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 
 /**
@@ -39,6 +40,7 @@ public class FragmentPictureForm extends Fragment {
     int SELECT_PICTURE = 200;
     int RESULT_OK = 200;
     String imageUri = null;
+    private int[] rgbValues;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -59,6 +61,7 @@ public class FragmentPictureForm extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         this.mainModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
+        mainModel.getIsClientThreadConnected().observe(getViewLifecycleOwner(), connected -> { this.refreshSendButton(connected); });
         mainModel.getWidthPx().observe(getViewLifecycleOwner(), widthPx -> {
             if (this.imageUri != null) {
                 this.displayAndConvertUri(Uri.parse(this.imageUri));
@@ -82,6 +85,16 @@ public class FragmentPictureForm extends Fragment {
                 i.setType("image/*");
                 i.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+            }
+        });
+        binding.buttonSend.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ByteBuffer buffer = ByteBuffer.allocate(rgbValues.length);
+                for (int value : rgbValues) {
+                    Byte octet = (byte)(value & 0xFF);
+                    buffer.put(octet);
+                }
+                mainModel.getClientThread().getValue().write(buffer.array());
             }
         });
         if (this.imageUri != null) {
@@ -110,7 +123,7 @@ public class FragmentPictureForm extends Fragment {
             int heightPx = model.getHeightPx().getValue();
             Bitmap resizedBitmap = Bitmap.createScaledBitmap(squareBitmap, widthPx, heightPx, false);
             EncodedBitmap encodedBitmap = new EncodedBitmap(resizedBitmap, this.mainModel.getBitsPerColor().getValue());
-
+            this.rgbValues = encodedBitmap.getEncodedRGBValues();
             binding.imagePreview.setImageBitmap(encodedBitmap.getTransformedBitmap());
         } catch (IOException E) {
             Log.e("File", "Fichier introuvable.");
@@ -124,5 +137,12 @@ public class FragmentPictureForm extends Fragment {
             this.imageUri = imageUri.toString();
             displayAndConvertUri(imageUri);
         }
+    }
+
+    private void refreshSendButton(boolean connected) {
+        if(connected)
+            this.binding.buttonSend.setEnabled(true);
+        else
+            this.binding.buttonSend.setEnabled(false);
     }
 }
