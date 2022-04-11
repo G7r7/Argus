@@ -102,6 +102,7 @@ public class BluetoothClientThread extends Thread {
 
 //        String text = "Connexion établie !";
 
+        model.setServerDevice(mmSocket.getRemoteDevice());
         model.setClientThreadStatus(this.getState());
         model.setIsClientThreadConnected(this.mmSocket.isConnected());
     }
@@ -124,7 +125,8 @@ public class BluetoothClientThread extends Thread {
             Log.e(TAG, "Could not close the client socket", e);
         }
         model.setClientThreadStatus(null);
-        model.setIsClientThreadConnected(null);
+        model.setIsClientThreadConnected(false);
         model.setClientThread(null);
+        model.setServerDevice(null);
     }
 }

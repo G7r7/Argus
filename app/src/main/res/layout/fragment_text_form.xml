@@ -119,6 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textPreview"
                 android:layout_centerHorizontal="true"
+                android:enabled="false"
                 android:text="@string/send" />
 
 

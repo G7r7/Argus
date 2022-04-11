@@ -67,6 +67,7 @@ public class FragmentTextForm extends Fragment {
         this.mainModel.getHeightPx().observe(getViewLifecycleOwner(), heightPx -> { this.refreshTextBitmapPreview(); });
         this.mainModel.getWidthPx().observe(getViewLifecycleOwner(), widthPx -> { this.refreshTextBitmapPreview(); });
         this.mainModel.getBitsPerColor().observe(getViewLifecycleOwner(), bits -> { this.refreshTextBitmapPreview(); });
+        this.mainModel.getIsClientThreadConnected().observe(getViewLifecycleOwner(), connected -> { this.refreshSendButton(connected); });
 
         binding = FragmentTextFormBinding.inflate(inflater, container, false);
         binding.EditText.addTextChangedListener(new TextWatcher() {
@@ -227,5 +228,12 @@ public class FragmentTextForm extends Fragment {
         canvas.drawText(string, x, y, paintText);
 
         return bitmap;
+    }
+
+    private void refreshSendButton(boolean connected) {
+        if(connected)
+            this.binding.buttonSend.setEnabled(true);
+        else
+            this.binding.buttonSend.setEnabled(false);
     }
 }

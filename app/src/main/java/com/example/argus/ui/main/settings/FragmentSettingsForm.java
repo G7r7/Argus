@@ -61,6 +61,7 @@ public class FragmentSettingsForm extends Fragment {
         this.mainModel.getClientThreadStatus().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
         this.mainModel.getIsClientThreadConnected().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
         this.mainModel.getServerThread().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
+        this.mainModel.getServerDevice().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
         this.mainModel.getServerThreadStatus().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
         this.mainModel.getBitsPerColor().observe(getViewLifecycleOwner(), settings -> { this.updatePreviews(); });
 
@@ -114,7 +115,7 @@ public class FragmentSettingsForm extends Fragment {
         // Connexion setting
         BluetoothDevice server = this.mainModel.getServerDevice().getValue();
         if (server != null) {
-            binding.connexionPreview.setText(server.getName() + " " + server.getAddress());
+            binding.connexionPreview.setText(server.getName());
         } else {
             binding.connexionPreview.setText("Aucun serveur");
         }

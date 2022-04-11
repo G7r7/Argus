@@ -32,7 +32,7 @@ public class MainActivityViewModel extends ViewModel {
         this.widthPx.setValue(widthPx);
         this.heightPx.setValue(heightPx);
     }
-    public void setServerDevice(BluetoothDevice device) { this.server.setValue(device); }
+    public void setServerDevice(BluetoothDevice device) { this.server.postValue(device); }
     public void setClientThread(BluetoothClientThread thread) { this.clientThread.setValue(thread); }
     public void setServerThread(BluetoothServerThread thread) { this.serverThread.setValue(thread); }
     public void setServerConnectedThread(BluetoothServerConnectedThread thread) { this.serverConnectedThread.postValue(thread); }
