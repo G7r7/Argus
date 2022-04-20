@@ -15,6 +15,7 @@ public class EncodedBitmap {
     private Bitmap.Config config = Bitmap.Config.ARGB_8888;
     private int bitsPerColor;
     private int[] RGBValues;
+    private int[] BGRValues;
     private int[] encodedRGBValues;
     private int multiplier;
     private Bitmap transformedBitmap;
@@ -63,6 +64,21 @@ public class EncodedBitmap {
         }
     }
 
+    public int[] getBGRValues()
+    {
+        if (this.BGRValues != null) {
+        }
+        else {
+            int[] RGB = getRGBValues();
+            for (int i = 0; i < RGB.length; i += 3) {
+                this.BGRValues[i + 0] = RGB[i + 2];
+                this.BGRValues[i + 1] = RGB[i + 1];
+                this.BGRValues[i + 2] = RGB[i + 0];
+            }
+        }
+        return this.BGRValues;
+    }
+
     public Bitmap getTransformedBitmap()
     {
         if (this.transformedBitmap != null)
@@ -94,6 +110,18 @@ public class EncodedBitmap {
                 encodedRGBValues[i] = Math.round((float) this.RGBValues[i] / this.multiplier);
             }
             return encodedRGBValues;
+        }
+    }
+
+    public int[] getEncodedBGRValues() {
+        if(this.encodedRGBValues != null)
+            return this.encodedRGBValues;
+        else {
+            int[] encodedBGRValues = new int[this.BGRValues.length];
+            for (int i = 0; i < this.BGRValues.length; i++) {
+                encodedBGRValues[i] = Math.round((float) this.BGRValues[i] / this.multiplier);
+            }
+            return encodedBGRValues;
         }
     }
 }

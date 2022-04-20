@@ -41,6 +41,7 @@ public class FragmentPictureForm extends Fragment {
     int RESULT_OK = 200;
     String imageUri = null;
     private int[] rgbValues;
+    private int[] bgrValues;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -89,8 +90,8 @@ public class FragmentPictureForm extends Fragment {
         });
         binding.buttonSend.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ByteBuffer buffer = ByteBuffer.allocate(rgbValues.length);
-                for (int value : rgbValues) {
+                ByteBuffer buffer = ByteBuffer.allocate(bgrValues.length);
+                for (int value : bgrValues) {
                     Byte octet = (byte)(value & 0xFF);
                     buffer.put(octet);
                 }
@@ -124,6 +125,7 @@ public class FragmentPictureForm extends Fragment {
             Bitmap resizedBitmap = Bitmap.createScaledBitmap(squareBitmap, widthPx, heightPx, false);
             EncodedBitmap encodedBitmap = new EncodedBitmap(resizedBitmap, this.mainModel.getBitsPerColor().getValue());
             this.rgbValues = encodedBitmap.getEncodedRGBValues();
+            this.bgrValues = encodedBitmap.getEncodedBGRValues();
             binding.imagePreview.setImageBitmap(encodedBitmap.getTransformedBitmap());
         } catch (IOException E) {
             Log.e("File", "Fichier introuvable.");

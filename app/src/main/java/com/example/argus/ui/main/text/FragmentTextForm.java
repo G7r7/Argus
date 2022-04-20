@@ -40,6 +40,7 @@ public class FragmentTextForm extends Fragment {
     private String text = "";
     private MainActivityViewModel mainModel;
     private int[] rgbValues;
+    private int[] bgrValues;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -135,8 +136,8 @@ public class FragmentTextForm extends Fragment {
         });
         binding.buttonSend.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ByteBuffer buffer = ByteBuffer.allocate(rgbValues.length);
-                for (int value : rgbValues) {
+                ByteBuffer buffer = ByteBuffer.allocate(bgrValues.length);
+                for (int value : bgrValues) {
                     Byte octet = (byte)(value & 0xFF);
                     buffer.put(octet);
                 }
@@ -198,6 +199,7 @@ public class FragmentTextForm extends Fragment {
         Bitmap b = generateTextBitmap();
         EncodedBitmap eb = new EncodedBitmap(b, this.mainModel.getBitsPerColor().getValue());
         this.rgbValues = eb.getEncodedRGBValues();
+        this.bgrValues = eb.getEncodedBGRValues();
         binding.textPreview.setImageBitmap(eb.getTransformedBitmap());
     }
 
